@@ -1,0 +1,11 @@
+language: php
+
+services:
+  - docker
+
+install:
+  - docker-compose up -d --build
+  - docker ps
+
+script:
+  - curl http://127.0.0.1/?phpinfo | grep "PHP Version"
