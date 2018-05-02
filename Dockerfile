@@ -9,14 +9,24 @@ ENV PHALCON_VERSION=3.3.2
 
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
+RUN apk add --update \
+        nano \
+        curl \
+        ca-certificates && \
+    apk upgrade
+
+RUN apk --update add supervisor=$SUPERVISOR_VERSION && \
+    mkdir -p /var/log/supervisor
+
+RUN apk --update add nginx=$NGINX_VERSION && \
+    cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
+    rm -rf /var/www/localhost
+
+RUN apk --update add mysql mysql-client && \
+    mysql_install_db --user=root > /dev/null 2>&1
+
 RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/repositories && \
-    apk add --update nano curl ca-certificates && \
-    apk upgrade && \
     apk --update add \
-        supervisor=$SUPERVISOR_VERSION \
-        nginx=$NGINX_VERSION \
-        mysql \
-        mysql-client \
         php@php \
         php-bcmath@php \
         php-bz2@php \
@@ -64,20 +74,34 @@ RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/
         php-xsl@php \
         php-zip@php \
         php-zlib@php && \
-    mkdir -p /var/log/supervisor && \
-    cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
     cp /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.default && \
-    rm -rf /var/www/localhost && \
     ln -s /usr/bin/php-config7 /usr/bin/php-config && \
     ln -s /usr/bin/php7 /usr/bin/php && \
     ln -s /usr/bin/phpize7 /usr/bin/phpize && \
     ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
-    adduser -D -g 'www' www && \
-    mysql_install_db --user=root && \
-    rm -rf /var/cache/apk/*
+    adduser -D -g 'www' www
+
+RUN apk --update add \
+        gcc \
+        make \
+        autoconf \
+        libc-dev \
+        libpcre32 \
+        pcre-dev \
+        re2c && \
+    curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
+    tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION}/build && sh install && \
+    echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
+    rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION}
+
+RUN rm -rf /var/cache/apk/*
 
 ADD rootfs /
 
 EXPOSE 80 443 3306
+
+#CREATE USER 'root'@'%'
+#GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';
+#FLUSH PRIVILEGES;
 
 ENTRYPOINT ["supervisord"]
