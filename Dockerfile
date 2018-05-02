@@ -74,6 +74,7 @@ RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/
         php-xsl@php \
         php-zip@php \
         php-zlib@php && \
+    cp /etc/php7/php.ini /etc/php7/php.ini.default && \
     cp /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.default && \
     ln -s /usr/bin/php-config7 /usr/bin/php-config && \
     ln -s /usr/bin/php7 /usr/bin/php && \
