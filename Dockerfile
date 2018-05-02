@@ -18,8 +18,10 @@ RUN apk add --update \
 RUN apk --update add supervisor=$SUPERVISOR_VERSION && \
     mkdir -p /var/log/supervisor
 
-RUN apk --update add nginx=$NGINX_VERSION && \
+RUN apk --update add nginx=$NGINX_VERSION openssl && \
     cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
+    mkdir -p /etc/nginx/deva/ssl && \
+    openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout /etc/nginx/deva/ssl/nginx.key -out /etc/nginx/deva/ssl/nginx.crt -subj "/C=PT/ST=PDL/L=PDL/O=DevA/OU=IT/CN=localhost" && \
     rm -rf /var/www/localhost
 
 RUN apk --update add mysql mysql-client && \
@@ -89,6 +91,7 @@ RUN apk --update add \
         libc-dev \
         libpcre32 \
         pcre-dev \
+        file \
         re2c && \
     curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
     tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION}/build && sh install && \
