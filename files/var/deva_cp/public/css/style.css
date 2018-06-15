@@ -1,0 +1,70 @@
+/*! DevA 2 - github.com/mignz/DevA2 */
+
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+body {
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin: 20px 0;
+}
+
+.badge a {
+    color: #fff;
+}
+
+.add-btn {
+    margin-top: 20px;
+}
+
+textarea {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.hidden {
+    display: none;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.highlighted {
+    background-color: #ffff99;
+}
+
+.fa-question-circle {
+    cursor: pointer;
+}
+
+.card-header .btn {
+    color: #353a3f;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.card-header .btn:hover {
+    background-color: rgb(240, 240, 240);
+    text-decoration: none;
+}
+
+.card-header .btn:focus {
+    text-decoration: none;
+}
+
+.red-dot {
+    background-color: red;
+    border-radius: 5px;
+    display: inline-block;
+    height: 8px;
+    margin-left: 8px;
+    margin-top: 3px;
+    position: absolute;
+    width: 8px;
+}
