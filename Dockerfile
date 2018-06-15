@@ -13,6 +13,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 RUN apk add --update \
         nano \
         curl \
+        ssmtp \
         ca-certificates && \
     apk upgrade
 
@@ -101,12 +102,14 @@ RUN apk --update add \
 
 RUN rm -rf /var/cache/apk/*
 
-ADD rootfs /
+ADD files /
 
 EXPOSE 80 443 3306
 
 #CREATE USER 'root'@'%'
 #GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';
 #FLUSH PRIVILEGES;
+
+# INSTALL PT UTF8 ON ALPINE
 
 ENTRYPOINT ["supervisord"]
