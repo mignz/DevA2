@@ -5,32 +5,35 @@ LABEL maintainer="me@mnunes.com"
 ENV NGINX_VERSION=1.12.2-r3
 ENV SUPERVISOR_VERSION=3.3.3-r1
 ENV PHP_VERSION=7.2
-ENV PHALCON_VERSION=3.3.2
+ENV PHALCON_VERSION=3.4.0
 ENV MARIADB_VERSION=10.1.32-r0
 
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
-RUN apk add --update \
-        nano \
-        curl \
-        ssmtp \
-        ca-certificates && \
-    apk upgrade
+RUN apk update && \
+    apk upgrade && \
+    apk add nano curl ssmtp ca-certificates
 
-RUN apk --update add supervisor=$SUPERVISOR_VERSION && \
+RUN apk add supervisor=$SUPERVISOR_VERSION && \
     mkdir -p /var/log/supervisor
 
-RUN apk --update add nginx=$NGINX_VERSION openssl && \
+RUN apk add nginx=$NGINX_VERSION openssl && \
     cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
     mkdir -p /etc/nginx/deva/ssl && \
     openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout /etc/nginx/deva/ssl/nginx.key -out /etc/nginx/deva/ssl/nginx.crt -subj "/CN=localhost" && \
     rm -rf /var/www/localhost
 
-RUN apk --update add mysql=$MARIADB_VERSION mysql-client=$MARIADB_VERSION && \
-    mysql_install_db --user=root > /dev/null 2>&1
+RUN apk add mysql=$MARIADB_VERSION mysql-client=$MARIADB_VERSION && \
+    mysql_install_db --user=root > /dev/null 2>&1 && \
+    echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
+    echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql && \
+    mkdir -p /run/mysqld && \
+    /usr/bin/mysqld --user=root --bootstrap --verbose=0 < /tmp/deva.sql && \
+    rm -f /tmp/deva.sql
 
 RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/repositories && \
-    apk --update add \
+    apk update && \
+    apk add \
         php@php \
         php-bcmath@php \
         php-bz2@php \
@@ -86,7 +89,7 @@ RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/
     ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
     adduser -D -g 'www' www
 
-RUN apk --update add \
+RUN apk add \
         gcc \
         make \
         autoconf \
@@ -105,11 +108,5 @@ RUN rm -rf /var/cache/apk/*
 ADD files /
 
 EXPOSE 80 443 3306
-
-#CREATE USER 'root'@'%'
-#GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';
-#FLUSH PRIVILEGES;
-
-# INSTALL PT UTF8 ON ALPINE
 
 ENTRYPOINT ["supervisord"]
