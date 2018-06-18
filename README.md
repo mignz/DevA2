@@ -1,21 +1,25 @@
 # DevA 2
 
-A Dockerfile providing a development environment with PHP-FPM, Nginx and MySQL (MariaDB). All using the lightweight Alpine Linux. PHP is installed with the Phalcon framework, XDebug and other extensions that you would find available in Plesk where I host personal and company projects. The list of these installed extensions is specified in the Dockerfile.
+This is a [Docker](https://www.docker.com/) container providing a development environment with PHP-FPM, Nginx, MySQL (MariaDB), Redis and SSMTP. It uses the lightweight Alpine Linux. PHP is installed along with the Phalcon framework, XDebug and other extensions that you would find available in most production servers.
 
-DevA 2 also includes a web based control panel to manage the virtual hosts and export/import all websites data and virtual hosts.
+I also include a web based control panel where you can:
+
+- Fully manage virtual hosts without worrying about config files
+- See the current version and the latest version of each service
+- Update the Phalcon framework when a new version is available
+- Restart the services (start Redis, which isn't started by default)
+- Configure SMTP for PHP to be able to send emails
+- Create a full backup (website data, databases, virtual hosts) and restore
+
+_**Note:** DevA2's intended use is for development only. It is not suitable for production!_
 
 ## Usage
-
-Pull the image from the Docker Hub:
-
-```shell
-docker pull mnunes/deva2:latest
-```
 
 Run:
 
 ```shell
-sudo docker run -d -it --privileged=true --name=deva2 -p 80:80 -p 443:443 -p 3306:3306 -v "$HOME"/www:/var/www -d deva2
+mkdir ~/Sites
+sudo docker run -dit --restart unless-stopped --name deva2 -p 80:80 -p 443:443 -p 3306:3306 -v "$HOME"/Sites:/var/www -d mnunes/deva2:latest
 ```
 
 Open [https://localhost](https://localhost) in your browser.
@@ -24,9 +28,11 @@ _**Note:** Change the source to wherever you'd like the websites to be located i
 
 ## Versions
 
-|   DevA 2   |  PHP  |  Nginx  | MariaDB | Phalcon | Alpine |
-|------------|-------|---------|---------|---------|--------|
-| **latest** | 7.2.x | 1.12.2  | 10.1.32 | 3.4.0   | 3.7    |
+|   DevA 2   |  PHP  |  Nginx  | MariaDB | Phalcon | Redis  | Alpine |
+|------------|-------|---------|---------|---------|--------|--------|
+| **latest** | 7.2.x | 1.12.2  | 10.1.32 | 3.4.0   | 4.0.6  | 3.7    |
+
+DevA2 was built to "simulate" the Plesk Onyx environment I use at my company and at home. These services may be updated only when Plesk supports the newest versions.
 
 _**Note:** It is possible to upgrade Phalcon through the web control panel._
 

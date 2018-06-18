@@ -15,6 +15,9 @@ $app->get(
         $mysqlStatus = \trim(
             Shell::getShellOutput('supervisorctl status mysql | sed \'s/\s\+/ /g\' | cut -d \' \' -f2')
         );
+        $redisStatus = \trim(
+            Shell::getShellOutput('supervisorctl status redis | sed \'s/\s\+/ /g\' | cut -d \' \' -f2')
+        );
         echo $app['view']->render('index', [
             'ver_deva2' => \trim(\file_get_contents('/etc/deva_version')),
             'ver_alpine' => \trim(\file_get_contents('/etc/alpine-release')),
@@ -24,6 +27,8 @@ $app->get(
             'ver_phalcon' => Shell::getShellOutput('php -r "echo Phalcon\Version::get();"'),
             'sql_status' => $mysqlStatus == 'RUNNING' ? 'RUNNING' : 'STOPPED',
             'sql_badge' => $mysqlStatus == 'RUNNING' ? 'success' : 'danger',
+            'redis_status' => $redisStatus == 'RUNNING' ? 'RUNNING' : 'STOPPED',
+            'redis_badge' => $redisStatus == 'RUNNING' ? 'success' : 'danger',
             'smtp' => Shell::getSSMTPConf(),
             'hosts' => Hosts::listVirtualHosts(),
             'get' => $app['request']->getQuery()

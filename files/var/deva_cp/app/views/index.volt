@@ -172,6 +172,14 @@
                 </small>
               </td>
             </tr>
+            <tr>
+              <th scope="row" width="200">Redis</th>
+              <td>
+                <span class="badge badge-{{ redis_badge }}">{{ redis_status }}</span>&nbsp;&nbsp;<small>
+                  <a href="#" class="restart-service" service="redis" data-toggle="tooltip" title="Start/Restart Redis"><i class="fas fa-sync-alt"></i></a>
+                </small>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

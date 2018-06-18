@@ -115,6 +115,9 @@ class Shell
             case 'mysql':
                 $proc = '[m]ysql';
                 break;
+            case 'redis':
+                $proc = '[r]edis-server';
+                break;
             default:
                 return;
         }

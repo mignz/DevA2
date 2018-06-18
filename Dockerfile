@@ -12,7 +12,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 RUN apk update && \
     apk upgrade && \
-    apk add nano curl ssmtp ca-certificates
+    apk add nano curl ssmtp redis ca-certificates
 
 RUN apk add supervisor=$SUPERVISOR_VERSION && \
     mkdir -p /var/log/supervisor
