@@ -7,7 +7,7 @@ docker system prune -af
 docker build -t deva2 .
 docker run -d -it \
     -p 80:80 -p 443:443 -p 3306:3306 \
-    --mount type=bind,source="$HOME"/www,destination=/var/www \
+    -v "$HOME"/www:/var/www \
     deva2
 
 docker exec -it "$(docker ps -q)" ash

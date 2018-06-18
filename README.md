@@ -15,7 +15,7 @@ docker pull mnunes/deva2:latest
 Run:
 
 ```shell
-sudo docker run -d -it --privileged=true --name=deva2 -p 80:80 -p 443:443 -p 3306:3306 --mount type=bind,source="$HOME"/Sites,destination=/var/www -d deva2
+sudo docker run -d -it --privileged=true --name=deva2 -p 80:80 -p 443:443 -p 3306:3306 -v "$HOME"/www:/var/www -d deva2
 ```
 
 Open [https://localhost](https://localhost) in your browser.

@@ -107,6 +107,9 @@ RUN rm -rf /var/cache/apk/*
 
 ADD files /
 
+VOLUME /var/www
+VOLUME /var/lib/mysql
+
 EXPOSE 80 443 3306
 
 ENTRYPOINT ["supervisord"]
