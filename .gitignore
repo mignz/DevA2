@@ -1,3 +1,1 @@
 .DS_Store
-files/var/deva_cp/app/cache/volt/*
-!files/var/deva_cp/app/cache/volt/.gitkeep

@@ -15,6 +15,7 @@
         Must be a valid domain name. Avoid adding ".test" at the end.
       </div>
     </div>
+    <small class="form-text text-muted"><b>Note:</b> Adding a new virtual host requires the domain to be in your hosts file if you haven't configured something like dnsmasq to forward all .test domains to 127.0.0.1.</small>
   </div>
   <div class="form-group">
     <label for="websiteconfig">Website Configuration</label>
@@ -62,7 +63,7 @@ location ~ \.php$ {
     <div class="custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" id="default" name="default">
       <label class="custom-control-label" for="default">Set as default</label>
-      <i class="fas fa-question-circle" data-toggle="popover" data-content="The default virtual host is accessible through localhost. This means that you can open this website on other devices through your machine's local network IP adddress."></i>
+      <i class="fas fa-question-circle" data-toggle="popover" data-content="The default virtual host is accessible through localhost. This means that you can open this website on more devices through your machine's local network IP adddress."></i>
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Add</button> or <a href="/">Cancel</a>

@@ -1,13 +1,16 @@
 #!/bin/bash
 
-docker stop "$(docker ps -aq)"
-docker rmi "$(docker ps -aq)"
-docker system prune -af
+# DO NOT RUN THIS SCRIPT UNLESS YOU KNOW WHAT YOU'RE DOING!!!
 
-docker build -t deva2 .
+docker stop "$(docker ps -a -q --filter ancestor=deva2dev)"
+docker rm "$(docker ps -a -q --filter ancestor=deva2dev)"
+docker system prune -a
+
+docker build -t deva2dev .
 docker run -d -it \
+    --name deva2dev \
     -p 80:80 -p 443:443 -p 3306:3306 \
     -v "$HOME"/www:/var/www \
-    deva2
+    deva2dev
 
-docker exec -it "$(docker ps -q)" ash
+docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" ash

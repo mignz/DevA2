@@ -89,39 +89,39 @@
         <table class="table">
           <thead class="thead-light">
             <tr>
-              <th scope="col">Service</th>
+              <th scope="col"></th>
               <th scope="col">Actual Version</th>
               <th scope="col">Latest Version</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row" width="200">Dev&#923; 2 Version</th>
+              <th scope="row" width="200">Dev&#923; 2</th>
               <td><span class="deva-version-actual">{{ ver_deva2 }}</span> with <i class="fab fa-docker" data-toggle="tooltip" title="Docker"></i></td>
               <td class="deva-version">&hellip;</td>
             </tr>
             <tr>
-              <th scope="row" width="200">Alpine Version</th>
+              <th scope="row" width="200">Alpine</th>
               <td>{{ ver_alpine }}</td>
               <td class="alpine-version">n/a</td>
             </tr>
             <tr>
-              <th scope="row" width="200">Nginx Version</th>
+              <th scope="row" width="200">Nginx</th>
               <td>{{ ver_nginx }}</td>
               <td class="nginx-version">n/a</td>
             </tr>
             <tr>
-              <th scope="row" width="200">PHP Version</th>
+              <th scope="row" width="200">PHP</th>
               <td>{{ ver_php }}&nbsp;&nbsp;<a href="/phpinfo" data-toggle="tooltip" title="Show phpinfo()"><i class="fab fa-php"></i></a></td>
               <td class="php-version">&hellip;</td>
             </tr>
             <tr>
-              <th scope="row" width="200">MariaDB Version</th>
+              <th scope="row" width="200">MariaDB</th>
               <td>{{ ver_db }}</td>
               <td class="mariadb-version">n/a</td>
             </tr>
             <tr>
-              <th scope="row" width="200">Phalcon Version</th>
+              <th scope="row" width="200">Phalcon</th>
               <td class="phalcon-version-actual">{{ ver_phalcon }}</td>
               <td class="phalcon-version">&hellip;</td>
             </tr>
@@ -241,7 +241,15 @@
     <div id="backup" class="collapse" aria-labelledby="backup_header" data-parent="#accordion">
       <div class="card-body">
         <form action="/restore" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-          <a href="/backup" class="btn btn-primary" onclick="this.innerHTML='Please wait...';">Create Backup</a>
+          <p><a href="/backup" class="btn btn-primary" onclick="this.innerHTML='Please wait...';">Create Backup</a></p>
+          <p>What's included:</p>
+          <p>
+            <ul>
+              <li>Website files</li>
+              <li>Databases</li>
+              <li>Virtual Hosts (Config)</li>
+            </ul>
+          </p>
           <hr>
           <div class="form-group">
             <label for="user">Restore</label>
