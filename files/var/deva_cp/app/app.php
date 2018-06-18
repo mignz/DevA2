@@ -348,6 +348,7 @@ $app->post(
                     $tar->extractTo('/');
                     
                     Shell::runShell('rm -rf ' . $tempPath);
+                    Shell::restartService('nginx');
                 } catch (\Exception $e) {
                     echo $app['view']->render('errors/woops', [
                         'error' => ':(',
