@@ -106,6 +106,7 @@ RUN apk add \
 RUN rm -rf /var/cache/apk/*
 
 ADD files /
+RUN chmod +x /etc/init.d/deva-init
 
 VOLUME /var/www
 VOLUME /var/lib/mysql
