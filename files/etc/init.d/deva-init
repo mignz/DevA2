@@ -1,6 +1,7 @@
 #!/bin/ash
 
-sleep 2
-cd /var/www && curl -O https://raw.githubusercontent.com/mignz/DevA2/master/files/var/www/index.php
-
-rm -f /etc/init.d/deva-init
+if [ ! -f /var/www/index.php ]; then
+  sleep 2
+  cd /var/www && curl -O https://raw.githubusercontent.com/mignz/DevA2/master/files/var/www/index.php
+  rm -f /etc/init.d/deva-init
+fi
