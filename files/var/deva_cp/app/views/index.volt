@@ -101,6 +101,11 @@
               <td class="deva-version">&hellip;</td>
             </tr>
             <tr>
+              <th scope="row" width="200">Alpine Version</th>
+              <td>{{ ver_alpine }}</td>
+              <td class="alpine-version">n/a</td>
+            </tr>
+            <tr>
               <th scope="row" width="200">Nginx Version</th>
               <td>{{ ver_nginx }}</td>
               <td class="nginx-version">n/a</td>

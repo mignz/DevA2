@@ -16,7 +16,8 @@ $app->get(
             Shell::getShellOutput('supervisorctl status mysql | sed \'s/\s\+/ /g\' | cut -d \' \' -f2')
         );
         echo $app['view']->render('index', [
-            'ver_deva2' => \file_get_contents('/etc/deva_version'),
+            'ver_deva2' => \trim(\file_get_contents('/etc/deva_version')),
+            'ver_alpine' => \trim(\file_get_contents('/etc/alpine-release')),
             'ver_nginx' => Shell::getShellOutput('nginx -v 2>&1 | cut -d/ -f2'),
             'ver_php' => Shell::getShellOutput('php -r "echo phpversion();"'),
             'ver_db' => Shell::getShellOutput('mysql -V | awk \'{print $5}\' | cut -d- -f1'),

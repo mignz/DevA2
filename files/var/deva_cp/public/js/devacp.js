@@ -36,7 +36,7 @@ function getDeva2Version() {
     url: 'https://raw.githubusercontent.com/mignz/DevA2/master/files/etc/deva_version',
     success: function (data) {
       $('.deva-version').html(data);
-      if ($('.deva-version-actual').html() != data) {
+      if ($('.deva-version-actual').html() != data.trim()) {
         showNewVersionBadge();
         $('.deva-version').html('<span class="badge badge-success">' + data + '</span>');
       }
