@@ -1,11 +1,13 @@
-language: php
+sudo: required
 
 services:
   - docker
 
 install:
-  - docker-compose up -d --build
-  - docker ps
+  - docker build -t deva2 .
+  - docker run -dit --name deva2 -p 127.0.0.1:80:80 deva2
+  - docker ps -a
+  - sleep 10
 
 script:
-  - curl http://127.0.0.1/?phpinfo | grep "PHP Version"
+  - curl -s http://127.0.0.1:80 | grep "<\!--phalcon.working-->"

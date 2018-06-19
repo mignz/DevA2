@@ -33,6 +33,14 @@
 
 <body>
 
+<?php
+
+if (class_exists('\\Phalcon\Version')) {
+    echo '<!--phalcon.working-->';
+}
+
+?>
+
 <h1>Dev&#923; 2</h1>
 
 <p><b>Welcome!</b></p>
