@@ -310,10 +310,9 @@ $app->get(
         
         \ignore_user_abort(true);
         
-        \header('Content-type: application/gzip');
+        \header('Content-Type: application/octet-stream');
         \header('Content-Disposition: attachment; filename=' . $compressedFile);
-        \header('Pragma: no-cache');
-        \header('Expires: 0');
+        \header('Content-Length: ' . filesize('/tmp/' . $compressedFile));
         \readfile('/tmp/' . $compressedFile);
         
         Shell::runShell('rm -rf ' . $tempPath);

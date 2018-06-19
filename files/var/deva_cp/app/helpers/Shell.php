@@ -58,7 +58,7 @@ class Shell
     {
         self::runShell(
             'candidates=$(echo "show databases" | mysql -u root' .
-            ' | grep -Ev "^(Database|mysql|performance_schema|information_schema|sys)$") && ',
+            ' | grep -Ev "^(Database|mysql|performance_schema|information_schema|sys)$") && ' .
             "mysqldump -u root --databases \$candidates > {$destination}"
         );
     }
