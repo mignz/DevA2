@@ -1,5 +1,8 @@
 ![DevA2](https://raw.githubusercontent.com/mignz/DevA2/master/deva.png)
 
+[![Build Status](https://travis-ci.org/mignz/DevA2.svg?branch=master)](https://travis-ci.org/mignz/DevA2)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 This is a [Docker](https://www.docker.com/) image providing a development environment (LEMP) with Nginx, PHP 7, MySQL (MariaDB), Redis and SSMTP (for testing emails in PHP). It uses the lightweight Alpine Linux. PHP is installed along with the Phalcon framework, XDebug and other extensions that you would find available in most production servers.
 
 It also includes a **web** based **control panel** where you can:
