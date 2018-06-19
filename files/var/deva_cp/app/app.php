@@ -291,6 +291,7 @@ $app->get(
 $app->get(
     '/backup',
     function () use ($app) {
+        \set_time_limit(0);
         $salt = \md5(\random_bytes(10));
         $tempPath = "/tmp/{$salt}";
         \mkdir($tempPath);
@@ -326,6 +327,7 @@ $app->get(
 $app->post(
     '/restore',
     function () use ($app) {
+        \set_time_limit(0);
         $salt = \md5(\random_bytes(10));
         $tempPath = "/tmp/{$salt}";
         \mkdir($tempPath);
