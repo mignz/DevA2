@@ -183,7 +183,11 @@ class Shell
     public static function updateSSMTPConf(string $server, int $port, string $user, string $pass): void
     {
         $conf = "root={$user}\nmailhub={$server}:{$port}\n" .
-            "hostname=localhost\nAuthUser={$user}\nAuthPass={$pass}\n";
+            "hostname=localhost\nAuthUser={$user}\nAuthPass={$pass}\nFromLineOverride=YES\n";
+        
+        if ($port > 25) {
+            $conf .= "UseSTARTTLS=YES\n";
+        }
         
         \file_put_contents('/etc/ssmtp/ssmtp.conf', $conf);
     }
