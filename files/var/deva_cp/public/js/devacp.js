@@ -82,6 +82,14 @@ function testEmail() {
   window.location = '/test/' + email;
 }
 
+function showLoadingScreen(msg) {
+  if (confirm(msg)) {
+    $('.loading').show();
+    return true;
+  }
+  return false;
+}
+
 $(function () {
   // Get latest services versions
   if ($('.phalcon-version').length > 0) {

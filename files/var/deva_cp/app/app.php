@@ -31,7 +31,8 @@ $app->get(
             'redis_badge' => $redisStatus == 'RUNNING' ? 'success' : 'danger',
             'smtp' => Shell::getSSMTPConf(),
             'hosts' => Hosts::listVirtualHosts(),
-            'get' => $app['request']->getQuery()
+            'get' => $app['request']->getQuery(),
+            'files' => \glob(Hosts::WWWPATH . '/DevA2_Backup_*.tar.gz')
         ]);
     }
 );
@@ -52,7 +53,7 @@ $app->get(
 $app->get(
     '/version/php',
     function () use ($app) {
-        header('Content-type: application/json; charset=utf-8');
+        \header('Content-type: application/json; charset=utf-8');
         echo \file_get_contents('https://secure.php.net/releases/index.php?json');
     }
 );
@@ -109,7 +110,7 @@ $app->post(
 $app->get(
     '/test/{email}',
     function ($email) use ($app) {
-        mail($email, 'DevA2 Mail Test', 'It works! You can now test your email PHP scripts before production.');
+        \mail($email, 'DevA2 Mail Test', 'It works! You can now test your email PHP scripts before production.');
         echo $app['view']->render('test', [
             'email' => $email
         ]);
@@ -299,72 +300,71 @@ $app->get(
         Shell::tarDir(Hosts::WWWPATH, $tempPath . '/www.tar');
         Shell::dumpDb($tempPath . '/databases.sql');
         Shell::tarDir('/etc/nginx/deva/vhosts', $tempPath . '/vhosts.tar');
-        
         \file_put_contents(
             $tempPath . '/info.txt',
             'DevA2 Version used to create this backup: ' . \file_get_contents('/etc/deva_version')
         );
         
-        $compressedFile = 'DevA2_Backup_' . date('Y-m-d') . '.tar.gz';
+        $compressedFile = 'DevA2_Backup_' . \date('Y-m-d_Hi') . '.tar.gz';
         Shell::runShell('cd ' . $tempPath . ' && tar -zcf /tmp/' . $compressedFile . ' * .??*');
         
-        \ignore_user_abort(true);
-        
-        \header('Content-Type: application/octet-stream');
-        \header('Content-Disposition: attachment; filename=' . $compressedFile);
-        \header('Content-Length: ' . filesize('/tmp/' . $compressedFile));
-        \readfile('/tmp/' . $compressedFile);
-        
         Shell::runShell('rm -rf ' . $tempPath);
-        \unlink('/tmp/' . $compressedFile);
+        \rename('/tmp/' . $compressedFile, Hosts::WWWPATH . '/' . $compressedFile);
+        
+        echo $app['view']->render('backup', [
+            'file' => $compressedFile
+        ]);
     }
 );
 
 /**
  * Restore
  */
-$app->post(
-    '/restore',
-    function () use ($app) {
+$app->get(
+    '/restore/{file}',
+    function ($file) use ($app) {
         \set_time_limit(0);
         $salt = \md5(\random_bytes(10));
         $tempPath = "/tmp/{$salt}";
         \mkdir($tempPath);
         
-        if ($app['request']->hasFiles() == true) {
-            foreach ($app['request']->getUploadedFiles() as $file) {
-                $file->moveTo($tempPath . '/restore.tar.gz');
-                
-                try {
-                    $gz = new \PharData($tempPath . '/restore.tar.gz');
-                    $gz->decompress();
-                    $tar = new \PharData($tempPath . '/restore.tar');
-                    $tar->extractTo($tempPath . '/restore');
-                    
-                    if (!file_exists($tempPath . '/restore/databases.sql')
-                        or !file_exists($tempPath . '/restore/vhosts.tar')
-                        or !file_exists($tempPath . '/restore/www.tar')
-                        or !file_exists($tempPath . '/restore/info.txt')) {
-                        throw new \Exception('Invalid backup file!');
-                    }
-                    
-                    Shell::importDbDump($tempPath . '/restore/databases.sql');
-                    $tar = new \PharData($tempPath . '/restore/vhosts.tar');
-                    $tar->extractTo('/');
-                    $tar = new \PharData($tempPath . '/restore/www.tar');
-                    $tar->extractTo('/');
-                    
-                    Shell::runShell('rm -rf ' . $tempPath);
-                    Shell::restartService('nginx');
-                } catch (\Exception $e) {
-                    echo $app['view']->render('errors/woops', [
-                        'error' => ':(',
-                        'error_output' => $e->getMessage()
-                    ]);
-                }
-                
-                break;
+        try {
+            if (!\file_exists(Hosts::WWWPATH . '/' . $file)) {
+                throw new \Exception('Specified backup file does not exist!');
             }
+            
+            Shell::extractTar(Hosts::WWWPATH . '/' . $file, $tempPath);
+            Shell::runShell('rm -f /etc/nginx/deva/vhosts/*.conf');
+            Shell::importDbDump($tempPath . '/databases.sql');
+            Shell::extractTar($tempPath . '/vhosts.tar', '/');
+            Shell::extractTar($tempPath . '/www.tar', '/');
+        } catch (\Exception $e) {
+            $stop = true;
+            echo $app['view']->render('errors/woops', [
+                'error' => $e->getMessage
+            ]);
+        }
+        
+        Shell::runShell('rm -rf ' . $tempPath);
+        
+        if (!isset($stop)) {
+            Shell::restartService('nginx');
+            \header('Location: /');
+        }
+    }
+);
+
+/**
+ * Delete Backup
+ */
+$app->get(
+    '/deletebackup/{file}',
+    function ($file) use ($app) {
+        \set_time_limit(0);
+        $file = \preg_replace('/[^a-zA-Z0-9_\-.]/', null, $file);
+        if (\file_exists(Hosts::WWWPATH . '/' . $file)) {
+            \unlink(Hosts::WWWPATH . '/' . $file);
+            \header('Location: /');
         }
     }
 );

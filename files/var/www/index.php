@@ -35,7 +35,7 @@
 
 <?php
 
-if (class_exists('\\Phalcon\Version')) {
+if (\class_exists('\\Phalcon\Version')) {
     echo '<!--phalcon.working-->';
 }
 
@@ -54,10 +54,10 @@ if (class_exists('\\Phalcon\Version')) {
 
 <?php
 
-$dirs = glob('*');
+$dirs = \glob('*');
 
 foreach ($dirs as $dir) {
-    if (is_dir($dir)) {
+    if (\is_dir($dir)) {
         echo '- <a href="/' . $dir . '">' . $dir . '</a><br>';
     }
 }

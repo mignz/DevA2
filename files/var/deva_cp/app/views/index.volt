@@ -240,28 +240,38 @@
     </div>
     <div id="backup" class="collapse" aria-labelledby="backup_header" data-parent="#accordion">
       <div class="card-body">
-        <form action="/restore" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-          <p><a href="/backup" class="btn btn-primary" onclick="this.innerHTML='Please wait...';">Create Backup</a></p>
-          <p>What's included:</p>
-          <p>
-            <ul>
-              <li>Website files</li>
-              <li>Databases</li>
-              <li>Virtual Hosts (Config)</li>
-            </ul>
-          </p>
-          <hr>
-          <div class="form-group">
-            <label for="user">Restore</label>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="backupfile" name="backupfile" required>
-              <label class="custom-file-label" for="backupfile">Choose a backup file</label>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary btn-sm">Restore</button>
-          <br><br>
-          <small><b>Warning:</b> Restoring a previous backup will replace any existing conflicting files! For best results, make sure this is a clean installation.</small>
-        </form>
+        <p><a href="/backup" class="btn btn-primary" onclick="return showLoadingScreen('This may take a while, continue?')">Create Backup</a></p>
+        <p>What's included:</p>
+        <p>
+          <ul>
+            <li>Website files</li>
+            <li>Databases</li>
+            <li>Virtual Hosts (Config)</li>
+          </ul>
+        </p>
+        <hr>
+        <h3>Restore</h3>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Backup File</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for file in files %}
+            <tr>
+              <th scope="row"><?=basename($file)?></th>
+              <td>
+                <a href="/restore/<?=basename($file)?>" class="btn btn-sm btn-primary" onclick="return showLoadingScreen('This may take a while, continue?')">Restore</a>
+                <a href="/deletebackup/<?=basename($file)?>" class="btn btn-sm btn-danger" onclick="return showLoadingScreen('Delete this backup file?\nThis action is irreversible!')">Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <small><b>Note:</b> Place your backup files in the websites directory with a valid name, for example: <i>DevA2_Backup_<?=date('Y-m-d_Hi')?>.tar.gz</i>.</small><br>
+        <small><b>Warning:</b> Restoring a previous backup will replace any existing conflicting files! For best results, make sure this is a clean installation.</small>
       </div>
     </div>
   </div>

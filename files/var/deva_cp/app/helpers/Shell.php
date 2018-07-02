@@ -49,6 +49,22 @@ class Shell
     }
     
     /**
+     * Extract tar.gz file
+     *
+     * @param string $source
+     * @param string $destination
+     * @return void
+     */
+    public static function extractTar(string $source, string $destination): void
+    {
+        $ext = \explode('.', $source);
+        $ext = \end($ext);
+        $gzip = $ext == 'gz' ? 'z' : null;
+        
+        self::runShell("tar -x{$gzip}f {$source} -C {$destination}");
+    }
+    
+    /**
      * Dump all MySQL databases
      *
      * @param string $destination

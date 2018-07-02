@@ -38,6 +38,12 @@
   </div>
 </div>
 
+<div class="loading">
+  <i class="fas fa-spinner fa-pulse"></i>
+  Please wait<br>
+  <small>This may take several minutes.
+</div>
+
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/popper.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
