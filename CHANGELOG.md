@@ -1,9 +1,14 @@
 # Changelog
 
-## 1.1.0 - 2nd of July, 2018
+## 1.1.0 - 6th of July, 2018
 
 - `[+]` Enabled PHP's short open tag
 - `[*]` Completely restructured the backup/restore logic and improved UI
+- `[*]` Updated Alpine Linux to version 3.8
+- `[*]` Updated Nginx to version 1.14.0
+- `[*]` Updated MariaDB to version 12.2.15
+- `[*]` Updated Redis to version 4.0.10
+- `[*]` Reduced the size of the Docker image
 - `[-]` Increased the PHP max execution time for the CP to avoid timeouts
 
 ## 1.0.2 - 20th of June, 2018

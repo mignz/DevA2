@@ -1,95 +1,71 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 LABEL maintainer="me@mnunes.com"
 
-ENV NGINX_VERSION=1.12.2-r3
-ENV SUPERVISOR_VERSION=3.3.3-r1
+ENV NGINX_VERSION=1.14.0-r0
+ENV SUPERVISOR_VERSION=3.3.4-r1
 ENV PHP_VERSION=7.2
 ENV PHALCON_VERSION=3.4.0
-ENV MARIADB_VERSION=10.1.32-r0
-
-ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+ENV MARIADB_VERSION=10.2.15-r0
+ENV REDIS_VERSION=4.0.10-r0
+ENV SSMTP_VERSION=2.64-r13
 
 RUN apk update && \
-    apk upgrade && \
-    apk add nano curl ssmtp redis ca-certificates
-
-RUN apk add supervisor=$SUPERVISOR_VERSION && \
-    mkdir -p /var/log/supervisor
-
-RUN apk add nginx=$NGINX_VERSION openssl && \
-    cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
-    mkdir -p /etc/nginx/deva/ssl && \
-    openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout /etc/nginx/deva/ssl/nginx.key -out /etc/nginx/deva/ssl/nginx.crt -subj "/CN=localhost" && \
-    rm -rf /var/www/localhost
-
-RUN apk add mysql=$MARIADB_VERSION mysql-client=$MARIADB_VERSION && \
-    mysql_install_db --user=root > /dev/null 2>&1 && \
-    echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
-    echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql && \
-    mkdir -p /run/mysqld && \
-    /usr/bin/mysqld --user=root --bootstrap --verbose=0 < /tmp/deva.sql && \
-    rm -f /tmp/deva.sql
-
-RUN echo "@php https://php.codecasts.rocks/v3.7/php-${PHP_VERSION}" >> /etc/apk/repositories && \
-    apk update && \
-    apk add \
-        php@php \
-        php-bcmath@php \
-        php-bz2@php \
-        php-calendar@php \
-        php-ctype@php \
-        php-curl@php \
-        php-dba@php \
-        php-dev@php \
-        php-dom@php \
-        php-enchant@php \
-        php-exif@php \
-        php-fpm@php \
-        php-ftp@php \
-        php-gd@php \
-        php-gettext@php \
-        php-gmp@php \
-        php-iconv@php \
-        php-imagick@php \
-        php-imap@php \
-        php-intl@php \
-        php-json@php \
-        php-ldap@php \
-        php-mbstring@php \
-        php-mysqli@php \
-        php-mysqlnd@php \
-        php-openssl@php \
-        php-pdo@php \
-        php-pdo_mysql@php \
-        php-pdo_sqlite@php \
-        php-phar@php \
-        php-posix@php \
-        php-pspell@php \
-        php-redis@php \
-        php-session@php \
-        php-soap@php \
-        php-sockets@php \
-        php-sqlite3@php \
-        php-sysvmsg@php \
-        php-sysvsem@php \
-        php-sysvshm@php \
-        php-tidy@php \
-        php-xdebug@php \
-        php-xml@php \
-        php-xmlreader@php \
-        php-xsl@php \
-        php-zip@php \
-        php-zlib@php && \
-    cp /etc/php7/php.ini /etc/php7/php.ini.default && \
-    cp /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.default && \
-    ln -s /usr/bin/php-config7 /usr/bin/php-config && \
-    ln -s /usr/bin/php7 /usr/bin/php && \
-    ln -s /usr/bin/phpize7 /usr/bin/phpize && \
-    ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
-    adduser -D -g 'www' www
-
-RUN apk add \
+    apk add --no-cache curl \
+        ssmtp=$SSMTP_VERSION \
+        redis=$REDIS_VERSION \
+        ca-certificates \
+        nginx=$NGINX_VERSION \
+        supervisor=$SUPERVISOR_VERSION \
+        openssl \
+        mysql=$MARIADB_VERSION \
+        mysql-client=$MARIADB_VERSION \
+        php7 \
+        php7-bcmath \
+        php7-bz2 \
+        php7-calendar \
+        php7-ctype \
+        php7-curl \
+        php7-dba \
+        php7-dev \
+        php7-dom \
+        php7-enchant \
+        php7-exif \
+        php7-fpm \
+        php7-ftp \
+        php7-gd \
+        php7-gettext \
+        php7-gmp \
+        php7-iconv \
+        php7-imagick \
+        php7-imap \
+        php7-intl \
+        php7-json \
+        php7-ldap \
+        php7-mbstring \
+        php7-mysqli \
+        php7-mysqlnd \
+        php7-openssl \
+        php7-pdo \
+        php7-pdo_mysql \
+        php7-pdo_sqlite \
+        php7-phar \
+        php7-posix \
+        php7-pspell \
+        php7-redis \
+        php7-session \
+        php7-soap \
+        php7-sockets \
+        php7-sqlite3 \
+        php7-sysvmsg \
+        php7-sysvsem \
+        php7-sysvshm \
+        php7-tidy \
+        php7-xdebug \
+        php7-xml \
+        php7-xmlreader \
+        php7-xsl \
+        php7-zip \
         gcc \
         make \
         autoconf \
@@ -98,12 +74,30 @@ RUN apk add \
         pcre-dev \
         file \
         re2c && \
+    mkdir -p /var/log/supervisor && \
+    cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
+    mkdir -p /etc/nginx/deva/ssl && \
+    openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout /etc/nginx/deva/ssl/nginx.key -out /etc/nginx/deva/ssl/nginx.crt -subj "/CN=localhost" && \
+    rm -rf /var/www/localhost && \
+    mysql_install_db --user=root > /dev/null 2>&1 && \
+    echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
+    echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql && \
+    mkdir -p /run/mysqld && \
+    /usr/bin/mysqld --user=root --bootstrap --verbose=0 < /tmp/deva.sql && \
+    rm -f /tmp/deva.sql && \
+    cp /etc/php7/php.ini /etc/php7/php.ini.default && \
+    cp /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.default && \
+    [ -f /usr/bin/php-config ] || ln -s /usr/bin/php-config7 /usr/bin/php-config && \
+    [ -f /usr/bin/php ] || ln -s /usr/bin/php7 /usr/bin/php && \
+    [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize7 /usr/bin/phpize && \
+    [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
+    echo "zend_extension=xdebug.so" > /etc/php7/conf.d/xdebug.ini && \
+    adduser -D -g 'www' www && \
     curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
     tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION}/build && sh install && \
     echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
-    rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION}
-
-RUN rm -rf /var/cache/apk/*
+    rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
+    rm -rf /var/cache/apk/*
 
 ADD files /
 RUN chmod +x /etc/init.d/deva-init
