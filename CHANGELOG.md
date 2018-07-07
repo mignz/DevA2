@@ -1,38 +1,41 @@
 # Changelog
+All notable changes to this project will be documented in this file.
 
-## 1.1.0 - 6th of July, 2018
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-- `[+]` Enabled PHP's short open tag
-- `[*]` Completely restructured the backup/restore logic and improved UI
-- `[*]` Updated Alpine Linux to version 3.8
-- `[*]` Updated Nginx to version 1.14.0
-- `[*]` Updated MariaDB to version 12.2.15
-- `[*]` Updated Redis to version 4.0.10
-- `[*]` Reduced the size of the Docker image
-- `[-]` Increased the PHP max execution time for the CP to avoid timeouts
+## [Unreleased]
 
-## 1.0.2 - 20th of June, 2018
+## [1.1.0] - 2018-07-06
+### Added
+- Enabled PHP's short open tag
+### Changed
+- Completely restructured the backup/restore logic and improved UI
+- Version update: Alpine Linux version 3.7 —> 3.8
+- Version update: Nginx version 1.12.2 —> 1.14.0
+- Version update: MariaDB version 10.1.32 —> 12.2.15
+- Version update: Redis version 4.0.6 —> 4.0.10
+- Reduced the size of the Docker image
+### Fixed
+- Increased the PHP max execution time to avoid timeouts when creating a backup
 
-- `[+]` Added STARTTLS to SMTP configuration
-- `[-]` Increased Nginx time limit when creating a backup
-- `[-]` Mysql database was being included in a mysql dump
-- `[-]` Backup was creating a corrupt file
-- `[-]` Nginx was creating a huge log after being restarted through the CP
+## [1.0.2] - 2018-06-20
+### Added
+- Added STARTTLS to the SSMTP configuration
+### Fixed
+- Increased the Nginx time limit when creating a backup
+- The "mysql" database was being included in a MySQL dump
+- Backup was creating a corrupt file
+- Nginx was creating a huge log after being restarted through the CP
 
-## 1.0.1 - 19th of June, 2018
+## [1.0.1] - 2018-06-19
+### Added
+- Enabled Xdebug remote
+- Improved the control panel UI
+### Changed
+- Improved readme
 
-- `[+]` Enabled Xdebug remote
-- `[+]` Added some messages in the Control Panel
-- `[*]` Updated readme
-
-## 1.0.0 - 18th of June, 2018
-
-- `[+]` Initial Release
-
----
-
-**Legend:**
-
-- `[+]` New
-- `[-]` Fixed
-- `[*]` Improvement
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/mignz/DevA2/compare/v1.0.2...v1.1.0
+[1.0.2]: https://github.com/mignz/DevA2/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/mignz/DevA2/compare/v1.0.0...v1.0.1
