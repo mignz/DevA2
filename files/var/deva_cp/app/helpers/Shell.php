@@ -87,7 +87,7 @@ class Shell
      */
     public static function importDbDump($source): void
     {
-        self::runShell("mysqldump -u root < {$source}");
+        self::runShell("mysql -u root < {$source}");
     }
     
     /**
