@@ -127,6 +127,10 @@
             </tr>
           </tbody>
         </table>
+        <small>
+          <a href="https://github.com/mignz/DevA2/blob/master/CHANGELOG.md">Changelog</a> |
+          <a href="https://github.com/mignz/DevA2/blob/master/UPGRADE.md">Upgrading Dev&#923; 2</a>
+        </small>
       </div>
     </div>
   </div>

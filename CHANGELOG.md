@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.2] - 2018-09-01
+### Added
+- Link to UPGRADE.md and CHANGELOG.md in CP
+### Changed
+- Version update: Phalcon version 3.4.0 —> 3.4.1
+- Version update: Redis version 4.0.10 —> 4.0.11
+
+## [1.1.1] - 2018-07-11
+### Fixed
+- Restore was not importing MySQL databases
+
 ## [1.1.0] - 2018-07-06
 ### Added
 - Enabled PHP's short open tag
@@ -35,7 +46,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/mignz/DevA2/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/mignz/DevA2/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/mignz/DevA2/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/mignz/DevA2/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/mignz/DevA2/compare/v1.0.0...v1.0.1

@@ -14,7 +14,7 @@ It also includes a **web** based **control panel** where you can:
 - Configure SMTP
 - Backup and restore
 
-_**Note:** DevA2's intended use is for development only. It is NOT suitable for production!_
+_**Note:** DevA2's intended use is for development in a safe environment only. It is NOT suitable for hosting websites in production!_
 
 ## Usage
 
@@ -35,7 +35,8 @@ Open [http://localhost](https://localhost) in your browser.
 
 |   DevA 2   | Alpine |  Nginx  | MariaDB |  PHP  | Phalcon | Redis  |
 |------------|--------|---------|---------|-------|---------|--------|
-| **latest** | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.0   | 4.0.10 |
+| **latest** | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.1   | 4.0.11 |
+| 1.1.1      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.0   | 4.0.10 |
 | 1.0.0      | 3.7    | 1.12.2  | 10.1.32 | 7.2.x | 3.4.0   | 4.0.6  |
 
 ## Ports
@@ -54,6 +55,10 @@ Open [http://localhost](https://localhost) in your browser.
 ## Changelog
 
 See [CHANGELOG.md](https://github.com/mignz/DevA2/blob/master/CHANGELOG.md).
+
+## Upgrading
+
+See [UPGRADE.md](https://github.com/mignz/DevA2/blob/master/UPGRADE.md).
 
 ## Build
 
@@ -74,6 +79,6 @@ Install dnsmasq to route all .test domains to 127.0.0.1 without having to alter 
 
 ### Access Xdebug
 
-I followed [this](https://grzegorowski.com/docker-with-xdebug-and-vdebug/) guide to configure Xdebug. You'll need to run the following command to allow Xdebug to access the host machine:
+I followed [this](https://grzegorowski.com/docker-with-xdebug-and-vdebug/) guide for the Xdebug configuration. You'll need to run the following command to give Xdebug access to the host machine:
 
 `sudo ifconfig lo0 alias 10.254.254.254`
