@@ -2,9 +2,9 @@ FROM alpine:3.8
 
 LABEL maintainer="me@mnunes.com"
 
-ENV NGINX_VERSION=1.14.0-r0
-ENV SUPERVISOR_VERSION=3.3.4-r1
-ENV PHP_VERSION=7.2
+ENV NGINX_VERSION=1.14.0-r1
+ENV S6_VERSION=2.7.1.1-r1
+#ENV PHP_VERSION=7.2
 ENV PHALCON_VERSION=3.4.1
 ENV MARIADB_VERSION=10.2.15-r0
 ENV REDIS_VERSION=4.0.11-r0
@@ -16,7 +16,7 @@ RUN apk update && \
         redis=$REDIS_VERSION \
         ca-certificates \
         nginx=$NGINX_VERSION \
-        supervisor=$SUPERVISOR_VERSION \
+        s6=$S6_VERSION \
         openssl \
         mysql=$MARIADB_VERSION \
         mysql-client=$MARIADB_VERSION \
@@ -74,10 +74,7 @@ RUN apk update && \
         pcre-dev \
         file \
         re2c && \
-    mkdir -p /var/log/supervisor && \
     cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
-    mkdir -p /etc/nginx/deva/ssl && \
-    openssl req -x509 -nodes -days 3652 -newkey rsa:2048 -keyout /etc/nginx/deva/ssl/nginx.key -out /etc/nginx/deva/ssl/nginx.crt -subj "/CN=localhost" && \
     rm -rf /var/www/localhost && \
     mysql_install_db --user=root > /dev/null 2>&1 && \
     echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
@@ -100,11 +97,17 @@ RUN apk update && \
     rm -rf /var/cache/apk/*
 
 ADD files /
-RUN chmod +x /etc/init.d/deva-init
+
+RUN chmod +x /etc/s6/mysql/* && \
+    chmod +x /etc/s6/nginx/* && \
+    chmod +x /etc/s6/php-fpm/* && \
+    chmod +x /etc/s6/redis/* && \
+    SAN=DNS:localhost openssl req -newkey rsa:2048 -x509 -nodes -keyout /etc/nginx/deva/ssl/localhost.key -new -out /etc/nginx/deva/ssl/localhost.crt -subj /CN=localhost -extensions san_env -config /etc/nginx/deva/ssl/san.cnf -sha256 -days 3650 && \
+    SAN=DNS:cp.test,DNS:localhost openssl req -newkey rsa:2048 -x509 -nodes -keyout /etc/nginx/deva/ssl/cp.test.key -new -out /etc/nginx/deva/ssl/cp.test.crt -subj /CN=cp.test -extensions san_env -config /etc/nginx/deva/ssl/san.cnf -sha256 -days 3650
 
 VOLUME /var/www
 VOLUME /var/lib/mysql
 
 EXPOSE 80 443 3306
 
-ENTRYPOINT ["supervisord"]
+ENTRYPOINT ["s6-svscan", "/etc/s6"]

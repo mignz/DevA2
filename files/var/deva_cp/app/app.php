@@ -5,6 +5,7 @@ namespace DevA2;
 
 use DevA2\Helpers\Hosts;
 use DevA2\Helpers\Shell;
+use DevA2\Helpers\Timezones;
 
 /**
  * Main page
@@ -12,12 +13,6 @@ use DevA2\Helpers\Shell;
 $app->get(
     '/',
     function () use ($app) {
-        $mysqlStatus = \trim(
-            Shell::getShellOutput('supervisorctl status mysql | sed \'s/\s\+/ /g\' | cut -d \' \' -f2')
-        );
-        $redisStatus = \trim(
-            Shell::getShellOutput('supervisorctl status redis | sed \'s/\s\+/ /g\' | cut -d \' \' -f2')
-        );
         echo $app['view']->render('index', [
             'ver_deva2' => \trim(\file_get_contents('/etc/deva_version')),
             'ver_alpine' => \trim(\file_get_contents('/etc/alpine-release')),
@@ -25,14 +20,16 @@ $app->get(
             'ver_php' => Shell::getShellOutput('php -r "echo phpversion();"'),
             'ver_db' => Shell::getShellOutput('mysql -V | awk \'{print $5}\' | cut -d- -f1'),
             'ver_phalcon' => Shell::getShellOutput('php -r "echo Phalcon\Version::get();"'),
-            'sql_status' => $mysqlStatus == 'RUNNING' ? 'RUNNING' : 'STOPPED',
-            'sql_badge' => $mysqlStatus == 'RUNNING' ? 'success' : 'danger',
-            'redis_status' => $redisStatus == 'RUNNING' ? 'RUNNING' : 'STOPPED',
-            'redis_badge' => $redisStatus == 'RUNNING' ? 'success' : 'danger',
+            'sql_status' => Shell::serviceRunning('mysql') ? 'RUNNING' : 'STOPPED',
+            'sql_badge' => Shell::serviceRunning('mysql') ? 'success' : 'danger',
+            'redis_status' => Shell::serviceRunning('redis') ? 'RUNNING' : 'STOPPED',
+            'redis_badge' => Shell::serviceRunning('redis') ? 'success' : 'danger',
             'smtp' => Shell::getSSMTPConf(),
             'hosts' => Hosts::listVirtualHosts(),
             'get' => $app['request']->getQuery(),
-            'files' => \glob(Hosts::WWWPATH . '/DevA2_Backup_*.tar.gz')
+            'files' => \glob(Hosts::WWWPATH . '/DevA2_Backup*.tar.gz'),
+            'timezones' => Timezones::getTimezones(),
+            'timezone' => \date_default_timezone_get()
         ]);
     }
 );
@@ -105,6 +102,39 @@ $app->post(
 );
 
 /**
+ * Update PHP Timezone
+ */
+$app->post(
+    '/timezone',
+    function () use ($app) {
+        Shell::updateTimezone($app['request']->getPost('timezone'));
+        echo $app['view']->render('timezone');
+    }
+);
+
+/**
+ * Restart service
+ */
+$app->get(
+    '/cert/{domain}',
+    function ($domain) use ($app) {
+        if (\file_exists('/etc/nginx/deva/ssl/' . $domain . '.crt')) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $domain . '.crt"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize('/etc/nginx/deva/ssl/' . $domain . '.crt'));
+            readfile('/etc/nginx/deva/ssl/' . $domain . '.crt');
+            exit(0);
+        } else {
+            echo 'Error: Certificate does not exist!';
+        }
+    }
+);
+
+/**
  * Test PHP Mailer
  */
 $app->get(
@@ -148,8 +178,10 @@ $app->post(
             }
             
             Hosts::createVirtualHost($domain, $config == 'custom' ? $custom : $config, $path);
+            Shell::createCertificate($domain);
             if ($output = Shell::configIsInvalid('nginx')) {
                 Hosts::deleteVirtualHost($domain);
+                Shell::deleteCertificate($domain);
                 throw new \Exception('Nginx configuration test failed!|' . $output);
             }
             if ($app['request']->hasPost('default')) {
@@ -230,8 +262,15 @@ $app->post(
             Hosts::backupHost($domain, Hosts::CONF_BACKUP);
             Hosts::deleteVirtualHost($domain);
             Hosts::createVirtualHost($newDomain, $config == 'custom' ? $custom : $config, $path);
+            if ($domain != $newDomain) {
+                Shell::deleteCertificate($domain);
+            }
+            if (!\file_exists('/etc/nginx/deva/ssl/' . $newDomain . '.key')) {
+                Shell::createCertificate($newDomain);
+            }
             if ($output = Shell::configIsInvalid('nginx')) {
                 Hosts::deleteVirtualHost($newDomain);
+                Shell::deleteCertificate($newDomain);
                 Hosts::backupHost($domain, Hosts::CONF_RESTORE);
                 throw new \Exception('Nginx configuration test failed!|' . $output);
             }
@@ -268,6 +307,7 @@ $app->get(
     function ($domain) use ($app) {
         if (!\in_array($domain, ['cp.test', 'localhost'])) {
             Hosts::deleteVirtualHost($domain);
+            Shell::deleteCertificate($domain);
             Shell::restartService('nginx');
         }
         \header('Location: /');
@@ -297,9 +337,16 @@ $app->get(
         $tempPath = "/tmp/{$salt}";
         \mkdir($tempPath);
         
-        Shell::tarDir(Hosts::WWWPATH, $tempPath . '/www.tar');
-        Shell::dumpDb($tempPath . '/databases.sql');
-        Shell::tarDir('/etc/nginx/deva/vhosts', $tempPath . '/vhosts.tar');
+        if ($app['request']->getQuery('w') === '1') {
+            Shell::tarDir(Hosts::WWWPATH, $tempPath . '/www.tar');
+        }
+        if ($app['request']->getQuery('d') === '1') {
+            Shell::dumpDb($tempPath . '/databases.sql');
+        }
+        if ($app['request']->getQuery('v') === '1') {
+            Shell::tarDir('/etc/nginx/deva/vhosts', $tempPath . '/vhosts.tar');
+            Shell::tarDir('/etc/nginx/deva/ssl', $tempPath . '/ssl.tar');
+        }
         \file_put_contents(
             $tempPath . '/info.txt',
             'DevA2 Version used to create this backup: ' . \file_get_contents('/etc/deva_version')
@@ -334,10 +381,19 @@ $app->get(
             }
             
             Shell::extractTar(Hosts::WWWPATH . '/' . $file, $tempPath);
-            Shell::runShell('rm -f /etc/nginx/deva/vhosts/*.conf');
-            Shell::importDbDump($tempPath . '/databases.sql');
-            Shell::extractTar($tempPath . '/vhosts.tar', '/');
-            Shell::extractTar($tempPath . '/www.tar', '/');
+            if (\file_exists($tempPath . '/vhosts.tar')) {
+                Shell::runShell('rm -f /etc/nginx/deva/vhosts/*.conf');
+                Shell::extractTar($tempPath . '/vhosts.tar', '/');
+                if (\file_exists($tempPath . '/ssl.tar')) {
+                    Shell::extractTar($tempPath . '/ssl.tar', '/');
+                }
+            }
+            if (\file_exists($tempPath . '/databases.sql')) {
+                Shell::importDbDump($tempPath . '/databases.sql');
+            }
+            if (\file_exists($tempPath . '/www.tar')) {
+                Shell::extractTar($tempPath . '/www.tar', '/');
+            }
         } catch (\Exception $e) {
             $stop = true;
             echo $app['view']->render('errors/woops', [

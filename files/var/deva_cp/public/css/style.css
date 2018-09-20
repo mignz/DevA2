@@ -7,6 +7,7 @@
 }
 
 body {
+    color: #3f3f47;
     margin-bottom: 20px;
 }
 
@@ -20,6 +21,10 @@ h3 {
 
 .add-btn {
     margin-top: 20px;
+}
+
+.btn-sm {
+    font-size: .7em;
 }
 
 textarea {
@@ -95,4 +100,15 @@ textarea {
 
 .loading a:hover {
     color: #b3cee9;
+}
+
+footer {
+    font-size: .9em;
+    margin-top: 15px;
+    text-align: center;
+}
+
+footer a {
+    color: #3f3f47;
+    margin: 0 10px;
 }

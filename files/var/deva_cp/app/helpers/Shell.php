@@ -14,9 +14,9 @@ class Shell
      * Execute shell command and get output
      *
      * @param string $cmd
-     * @return string
+     * @return mixed
      */
-    public static function getShellOutput(string $cmd): string
+    public static function getShellOutput(string $cmd)
     {
         return \shell_exec($cmd);
     }
@@ -112,43 +112,34 @@ class Shell
     }
     
     /**
-     * Request supervisor to restart a service
+     * Check if a service is running
      *
      * @param string $service
-     * @return void
+     * @return boolean
      */
-    public static function restartService(string $service): void
+    public static function serviceRunning(string $service): bool
     {
-        switch ($service) {
-            case 'nginx':
-                $proc = '[n]ginx';
-                if (self::configIsInvalid('nginx')) {
-                    return;
-                }
-                break;
-            case 'php-fpm':
-                $proc = '[p]hp';
-                if (self::configIsInvalid('php-fpm')) {
-                    return;
-                }
-                break;
-            case 'mysql':
-                $proc = '[m]ysql';
-                break;
-            case 'redis':
-                $proc = '[r]edis-server';
-                break;
-            default:
-                return;
-        }
-        
-        self::runShell(
-            'nohup sh -c "sleep 2; ' .
-            'kill $(ps aux | grep \'' . $proc . '\' | awk \'{print $1}\'); ' .
-            'supervisorctl restart ' . $service . '" > /dev/null 2>&1 &'
+        $result = self::getShellOutput(
+            "ps aux | grep {$service} | grep -v 'grep' | grep -v 's6' > /dev/null && echo $?"
         );
         
-        echo 1;
+        return $result !== null and (int) $result === 0;
+    }
+    
+    /**
+     * Use s6 to restart a service
+     *
+     * @param string $service
+     * @param bool $output
+     * @return void
+     */
+    public static function restartService(string $service, $output = true): void
+    {
+        self::runShell("nohup sh -c \"sleep 2; s6-svc -k /etc/s6/{$service}\" > /dev/null 2>&1 &");
+        
+        if (true === $output) {
+            echo 1;
+        }
     }
     
     /**
@@ -177,13 +168,13 @@ class Shell
     {
         $conf = \file_get_contents('/etc/ssmtp/ssmtp.conf');
         
-        preg_match('/mailhub=(.*?)\n/', $conf, $server);
-        preg_match('/AuthUser=(.*?)\n/', $conf, $user);
-        preg_match('/AuthPass=(.*?)\n/', $conf, $pass);
+        \preg_match('/mailhub=(.*?)\n/', $conf, $server);
+        \preg_match('/AuthUser=(.*?)\n/', $conf, $user);
+        \preg_match('/AuthPass=(.*?)\n/', $conf, $pass);
         
         $values = [
-            'server' => explode(':', $server[1])[0],
-            'port' => explode(':', $server[1])[1],
+            'server' => \explode(':', $server[1])[0],
+            'port' => \explode(':', $server[1])[1],
             'user' => $user[1],
             'pass' => $pass[1]
         ];
@@ -210,5 +201,49 @@ class Shell
         }
         
         \file_put_contents('/etc/ssmtp/ssmtp.conf', $conf);
+    }
+    
+    /**
+     * Update PHP timezone
+     *
+     * @param string $timezone
+     * @return void
+     */
+    public static function updateTimezone(string $timezone): void
+    {
+        self::runShell("sed -i 's%date.timezone.*%date.timezone = \"{$timezone}\"%' /etc/php7/php.ini");
+        self::restartService('php-fpm', false);
+    }
+    
+    /**
+     * Create a certificate with SAN for a domain
+     *
+     * @param string $domain
+     * @return void
+     */
+    public static function createCertificate(string $domain): void
+    {
+        echo self::runShell(
+            "SAN=DNS:{$domain},DNS:localhost openssl req -newkey rsa:2048 -x509 -nodes " .
+            "-keyout /etc/nginx/deva/ssl/{$domain}.key -new " .
+            "-out /etc/nginx/deva/ssl/{$domain}.crt -subj /CN={$domain} " .
+            '-extensions san_env -config /etc/nginx/deva/ssl/san.cnf -sha256 -days 3650'
+        );
+    }
+    
+    /**
+     * Remove certificate files for a domain
+     *
+     * @param string $domain
+     * @return void
+     */
+    public static function deleteCertificate(string $domain): void
+    {
+        if (\file_exists('/etc/nginx/deva/ssl/' . $domain . '.crt')) {
+            \unlink('/etc/nginx/deva/ssl/' . $domain . '.crt');
+        }
+        if (\file_exists('/etc/nginx/deva/ssl/' . $domain . '.key')) {
+            \unlink('/etc/nginx/deva/ssl/' . $domain . '.key');
+        }
     }
 }

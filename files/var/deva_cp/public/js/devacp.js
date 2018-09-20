@@ -126,6 +126,14 @@ $(function () {
       form.classList.add('was-validated');
     }, false);
   });
+  // Handle backup selection
+  $('.backup-sel').click(function () {
+    var w = $('#backup_w').is(":checked") ? 1 : 0;
+    var d = $('#backup_d').is(":checked") ? 1 : 0;
+    var v = $('#backup_v').is(":checked") ? 1 : 0;
+    var newLink = '/backup?w=' + w + '&d=' + d + '&v=' + v;
+    $('.backup-link').attr('href', newLink);
+  });
   // Virtual host form automations
   if ($('#websiteconfig').length > 0) {
     // Auto fill path based on the domain name

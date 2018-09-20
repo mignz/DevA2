@@ -41,6 +41,9 @@
                 <a href="https://{{ host['domain'] }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Open">
                   <i class="fas fa-globe"></i>
                 </a>
+                <a href="/cert/{{ host['domain'] }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Download SSL Certificate">
+                  <i class="fas fa-lock"></i>
+                </a>
                 {% if host['domain'] == 'localhost' or host['domain'] == 'cp.test' %}
                 <button class="btn btn-primary btn-sm" disabled>
                   <i class="fas fa-edit"></i>
@@ -127,10 +130,6 @@
             </tr>
           </tbody>
         </table>
-        <small>
-          <a href="https://github.com/mignz/DevA2/blob/master/CHANGELOG.md">Changelog</a> |
-          <a href="https://github.com/mignz/DevA2/blob/master/UPGRADE.md">Upgrading Dev&#923; 2</a>
-        </small>
       </div>
     </div>
   </div>
@@ -235,6 +234,34 @@
     </div>
   </div>
   <div class="card">
+    <div class="card-header" id="timezone_header">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#timezone" aria-expanded="false" aria-controls="timezone">
+          PHP Timezone
+        </button>
+      </h5>
+    </div>
+    <div id="timezone" class="collapse" aria-labelledby="timezone_header" data-parent="#accordion">
+      <div class="card-body">
+        <form action="/timezone" method="post" class="needs-validation" novalidate>
+          <div class="form-group">
+            <label for="timezone">Timezone</label>
+            <select name="timezone" id="timezone" class="form-control" required>
+              <option value="">Select a timezone</option>
+              {% for tzk, tz in timezones %}
+              <option value="{{ tzk }}"{% if tzk is timezone %} selected{% endif %}>{{ tz }}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              You must specify a timezone!
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="card">
     <div class="card-header" id="backup_header">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#backup" aria-expanded="false" aria-controls="backup">
@@ -244,14 +271,21 @@
     </div>
     <div id="backup" class="collapse" aria-labelledby="backup_header" data-parent="#accordion">
       <div class="card-body">
-        <p><a href="/backup" class="btn btn-primary" onclick="return showLoadingScreen('This may take a while, continue?')">Create Backup</a></p>
+        <p><a href="/backup?w=1&amp;d=1&amp;v=1" class="btn btn-primary backup-link" onclick="return showLoadingScreen('This may take a while, continue?')">Create Backup</a></p>
         <p>What's included:</p>
         <p>
-          <ul>
-            <li>Website files</li>
-            <li>Databases</li>
-            <li>Virtual Hosts (Config)</li>
-          </ul>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input backup-sel" id="backup_w" checked>
+            <label class="custom-control-label" for="backup_w">Website files</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input backup-sel" id="backup_d" checked>
+            <label class="custom-control-label" for="backup_d">Databases</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input backup-sel" id="backup_v" checked>
+            <label class="custom-control-label" for="backup_v">Virtual Hosts (Config)</label>
+          </div>
         </p>
         <hr>
         <h3>Restore</h3>

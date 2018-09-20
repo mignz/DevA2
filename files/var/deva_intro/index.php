@@ -54,10 +54,11 @@ if (\class_exists('\\Phalcon\Version')) {
 
 <?php
 
-$dirs = \glob('*');
+$dirs = \glob('/var/www/*');
 
 foreach ($dirs as $dir) {
     if (\is_dir($dir)) {
+        $dir = \str_replace('/var/www/', null, $dir);
         echo '- <a href="/' . $dir . '">' . $dir . '</a><br>';
     }
 }
