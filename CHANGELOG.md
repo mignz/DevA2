@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.1] - 2019-02-23
+### Changed
+- Version update: Alpine version 3.8 —> 3.9
+- Version update: Nginx version 1.14.0 —> 1.14.2
+- Version update: MariaDB version 10.2.15 —> 10.3.12
+- Version update: Phalcon version 3.4.1 —> 3.4.2
+- Version update: Redis version 4.0.11 —> 4.0.12
+
 ## [1.2.0] - 2018-09-20
 ### Added
 - Option to select timezone for PHP
@@ -56,8 +64,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.0...HEAD
-[1.1.2]: https://github.com/mignz/DevA2/compare/v1.1.2...v1.2.0
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/mignz/DevA2/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/mignz/DevA2/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/mignz/DevA2/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/mignz/DevA2/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/mignz/DevA2/compare/v1.0.2...v1.1.0
