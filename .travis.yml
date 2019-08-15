@@ -10,4 +10,4 @@ install:
   - sleep 10
 
 script:
-  - curl -s http://127.0.0.1:80 | grep "<\!--phalcon.working-->"
+  - curl -s http://127.0.0.1:80 | grep "<\!--phalcon&mysql.working-->"

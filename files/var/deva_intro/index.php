@@ -36,7 +36,9 @@
 <?php
 
 if (\class_exists('\\Phalcon\Version')) {
-    echo '<!--phalcon.working-->';
+    $link = @mysqli_connect('localhost', 'root', '') or die('MYSQL INOP!');
+    @mysqli_select_db($link, 'mysql') or die('MYSQL INOP!');
+    echo '<!--phalcon&mysql.working-->';
 }
 
 ?>

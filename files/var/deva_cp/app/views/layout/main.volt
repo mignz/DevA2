@@ -38,7 +38,7 @@
   </div>
   <footer>
     <hr>
-    <a href="https://github.com/mignz/DevA2"><i class="fab fa-github"></i></a> <a href="https://github.com/mignz/DevA2/blob/master/CHANGELOG.md">Changelog</a> <a href="https://github.com/mignz/DevA2/blob/master/UPGRADE.md">Upgrade</a>
+    <a href="https://github.com/mignz/DevA2"><i class="fab fa-github"></i></a> <a href="https://github.com/mignz/DevA2/blob/master/CHANGELOG.md">Changelog</a> <a href="https://github.com/mignz/DevA2#upgrading">Upgrade</a>
   </footer>
 </div>
 

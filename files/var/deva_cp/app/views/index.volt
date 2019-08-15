@@ -106,12 +106,12 @@
             <tr>
               <th scope="row" width="200">Alpine</th>
               <td>{{ ver_alpine }}</td>
-              <td class="alpine-version">n/a</td>
+              <td class="alpine-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">Nginx</th>
               <td>{{ ver_nginx }}</td>
-              <td class="nginx-version">n/a</td>
+              <td class="nginx-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">PHP</th>
@@ -121,7 +121,7 @@
             <tr>
               <th scope="row" width="200">MariaDB</th>
               <td>{{ ver_db }}</td>
-              <td class="mariadb-version">n/a</td>
+              <td class="mariadb-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">Phalcon</th>
@@ -309,7 +309,7 @@
           </tbody>
         </table>
         <small><b>Note:</b> Place your backup files in the websites directory with a valid name, for example: <i>DevA2_Backup_<?=date('Y-m-d_Hi')?>.tar.gz</i>.</small><br>
-        <small><b>Warning:</b> Restoring a previous backup will replace any existing conflicting files! For best results, make sure this is a clean installation.</small>
+        <small><b>Warning:</b> Restoring a previous backup will replace any existing conflicting files! For the best results, make sure this is a clean installation of Dev&#923;2.</small>
       </div>
     </div>
   </div>

@@ -35,7 +35,8 @@ Open [http://localhost](https://localhost) in your browser.
 
 |   DevA 2   | Alpine |  Nginx  | MariaDB |  PHP  | Phalcon | Redis  |
 |------------|--------|---------|---------|-------|---------|--------|
-| **latest** | 3.9    | 1.14.2  | 10.3.12 | 7.2.x | 3.4.2   | 4.0.12 |
+| **latest** | 3.10   | 1.16.1  | 10.3.17 | 7.3.8 | 3.4.4   | 5.0.5  |
+| 1.2.1      | 3.9    | 1.14.2  | 10.3.12 | 7.2.x | 3.4.2   | 4.0.12 |
 | 1.2.0      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.1   | 4.0.11 |
 | 1.1.1      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.0   | 4.0.10 |
 | 1.0.0      | 3.7    | 1.12.2  | 10.1.32 | 7.2.x | 3.4.0   | 4.0.6  |
@@ -47,7 +48,7 @@ Open [http://localhost](https://localhost) in your browser.
 - **HTTP:** 80
 - **HTTPS:** 443
 
-## Database Access
+## Database Credentials
 
 - **Host:** 127.0.0.1
 - **Username:** root
@@ -59,7 +60,18 @@ See [CHANGELOG.md](https://github.com/mignz/DevA2/blob/master/CHANGELOG.md).
 
 ## Upgrading
 
-See [UPGRADE.md](https://github.com/mignz/DevA2/blob/master/UPGRADE.md).
+DevA 2 doesn't provide an easy upgrade method. If you need to upgrade to a newer version of DevA 2, you can either upgrade the packages manually (by accessing the image directly), or remove the current image and create a new one with the latest version. For the latter, here's how:
+
+1. Backup your website virtual hosts and databases (no websites)
+1. [Stop] the current DevA 2 image
+1. [Remove] the old DevA 2 image
+1. Leave the directory where the websites are as it is
+1. Install DevA 2 again the [normal way]
+1. Restore the backup
+
+[Stop]: (https://docs.docker.com/engine/reference/commandline/stop/)
+[Remove]: https://docs.docker.com/engine/reference/commandline/rm/
+[normal way]: https://github.com/mignz/DevA2/blob/master/README.md#usage
 
 ## Build
 

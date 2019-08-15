@@ -14,7 +14,15 @@ function showNewVersionBadge() {
 function checkPhalconVersion() {
   var currentPhalconVer = $('.phalcon-version-actual').html();
   $.getJSON('https://api.github.com/repos/phalcon/cphalcon/tags', function (data) {
-    var latestPhalconVersion = data[0].name;
+    var i = 0;
+    for (;;) {
+      if (data[i].name.includes('-')) {
+        i++;
+      } else {
+        break;
+      }
+    }
+    var latestPhalconVersion = data[i].name;
     $('.phalcon-version').html(latestPhalconVersion.replace('v', ''));
     if (latestPhalconVersion.replace('v', '') != currentPhalconVer) {
       showNewVersionBadge();

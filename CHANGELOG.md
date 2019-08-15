@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.2] - 2019-08-15
+### Changed
+- Version update: Alpine version 3.9 —> 3.10
+- Version update: Nginx version 1.14.2 —> 1.16.1
+- Version update: MariaDB version 10.3.12 —> 10.3.17
+- Version update: Phalcon version 3.4.2 —> 3.4.4
+- Version update: PHP version 7.2.x —> 7.3.8
+- Version update: Redis version 4.0.12 —> 5.0.5
+- Travis now checks for a MySQL connection
+- Default PHP timezone is Europe/Lisbon
+### Fixed
+- CP was checking for Phalcon beta versions
+
 ## [1.2.1] - 2019-02-23
 ### Changed
 - Version update: Alpine version 3.8 —> 3.9
@@ -64,7 +77,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/mignz/DevA2/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/mignz/DevA2/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/mignz/DevA2/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/mignz/DevA2/compare/v1.1.1...v1.1.2

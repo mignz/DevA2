@@ -1,13 +1,13 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
 LABEL maintainer="me@mnunes.com"
 
-ENV NGINX_VERSION=1.14.2-r0
-ENV S6_VERSION=2.7.2.0-r0
-#ENV PHP_VERSION=7.2
-ENV PHALCON_VERSION=3.4.2
-ENV MARIADB_VERSION=10.3.12-r2
-ENV REDIS_VERSION=4.0.12-r0
+ENV NGINX_VERSION=1.16.1-r0
+ENV S6_VERSION=2.8.0.1-r0
+ENV PHP_VERSION=7.3.8-r0
+ENV PHALCON_VERSION=3.4.4
+ENV MARIADB_VERSION=10.3.17-r0
+ENV REDIS_VERSION=5.0.5-r0
 ENV SSMTP_VERSION=2.64-r14
 
 RUN apk update && \
@@ -20,52 +20,52 @@ RUN apk update && \
         openssl \
         mysql=$MARIADB_VERSION \
         mysql-client=$MARIADB_VERSION \
-        php7 \
-        php7-bcmath \
-        php7-bz2 \
-        php7-calendar \
-        php7-ctype \
-        php7-curl \
-        php7-dba \
-        php7-dev \
-        php7-dom \
-        php7-enchant \
-        php7-exif \
-        php7-fpm \
-        php7-ftp \
-        php7-gd \
-        php7-gettext \
-        php7-gmp \
-        php7-iconv \
+        php7=$PHP_VERSION \
+        php7-bcmath=$PHP_VERSION \
+        php7-bz2=$PHP_VERSION \
+        php7-calendar=$PHP_VERSION \
+        php7-ctype=$PHP_VERSION \
+        php7-curl=$PHP_VERSION \
+        php7-dba=$PHP_VERSION \
+        php7-dev=$PHP_VERSION \
+        php7-dom=$PHP_VERSION \
+        php7-enchant=$PHP_VERSION \
+        php7-exif=$PHP_VERSION \
+        php7-fpm=$PHP_VERSION \
+        php7-ftp=$PHP_VERSION \
+        php7-gd=$PHP_VERSION \
+        php7-gettext=$PHP_VERSION \
+        php7-gmp=$PHP_VERSION \
+        php7-iconv=$PHP_VERSION \
         php7-imagick \
-        php7-imap \
-        php7-intl \
-        php7-json \
-        php7-ldap \
-        php7-mbstring \
-        php7-mysqli \
-        php7-mysqlnd \
-        php7-openssl \
-        php7-pdo \
-        php7-pdo_mysql \
-        php7-pdo_sqlite \
-        php7-phar \
-        php7-posix \
-        php7-pspell \
+        php7-imap=$PHP_VERSION \
+        php7-intl=$PHP_VERSION \
+        php7-json=$PHP_VERSION \
+        php7-ldap=$PHP_VERSION \
+        php7-mbstring=$PHP_VERSION \
+        php7-mysqli=$PHP_VERSION \
+        php7-mysqlnd=$PHP_VERSION \
+        php7-openssl=$PHP_VERSION \
+        php7-pdo=$PHP_VERSION \
+        php7-pdo_mysql=$PHP_VERSION \
+        php7-pdo_sqlite=$PHP_VERSION \
+        php7-phar=$PHP_VERSION \
+        php7-posix=$PHP_VERSION \
+        php7-pspell=$PHP_VERSION \
         php7-redis \
-        php7-session \
-        php7-soap \
-        php7-sockets \
-        php7-sqlite3 \
-        php7-sysvmsg \
-        php7-sysvsem \
-        php7-sysvshm \
-        php7-tidy \
+        php7-session=$PHP_VERSION \
+        php7-soap=$PHP_VERSION \
+        php7-sockets=$PHP_VERSION \
+        php7-sqlite3=$PHP_VERSION \
+        php7-sysvmsg=$PHP_VERSION \
+        php7-sysvsem=$PHP_VERSION \
+        php7-sysvshm=$PHP_VERSION \
+        php7-tidy=$PHP_VERSION \
         php7-xdebug \
-        php7-xml \
-        php7-xmlreader \
-        php7-xsl \
-        php7-zip \
+        php7-xml=$PHP_VERSION \
+        php7-xmlreader=$PHP_VERSION \
+        php7-xsl=$PHP_VERSION \
+        php7-zip=$PHP_VERSION \
         gcc \
         make \
         autoconf \
@@ -76,11 +76,11 @@ RUN apk update && \
         re2c && \
     cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
     rm -rf /var/www/localhost && \
-    mysql_install_db --user=root > /dev/null 2>&1 && \
+    mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 && \
     echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
     echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql && \
     mkdir -p /run/mysqld && \
-    /usr/bin/mysqld --user=root --bootstrap --verbose=0 < /tmp/deva.sql && \
+    /usr/bin/mysqld --user=root --datadir='/var/lib/mysql' --bootstrap --verbose=0 < /tmp/deva.sql && \
     rm -f /tmp/deva.sql && \
     cp /etc/php7/php.ini /etc/php7/php.ini.default && \
     cp /etc/php7/php-fpm.conf /etc/php7/php-fpm.conf.default && \
