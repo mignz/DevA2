@@ -19,7 +19,7 @@ _**Note:** DevA2's intended use is for development in a safe environment only. I
 ## Usage
 
 1. Create the directory where the websites will be located
-1. Run the following command (change "$HOME"/Sites to that directory)
+1. Run the following command (change `"$HOME"/Sites` to that directory)
 
 ```shell
 docker run -dit --restart unless-stopped \
@@ -29,17 +29,18 @@ docker run -dit --restart unless-stopped \
     mnunes/deva2:latest
 ```
 
-Open [http://localhost](https://localhost) in your browser.
+Open [http://localhost](http://localhost) in your browser.
 
 ## Versions
 
-|   DevA 2   | Alpine |  Nginx  | MariaDB |  PHP  | Phalcon | Redis  |
-|------------|--------|---------|---------|-------|---------|--------|
-| **latest** | 3.10   | 1.16.1  | 10.3.17 | 7.3.8 | 3.4.4   | 5.0.5  |
-| 1.2.1      | 3.9    | 1.14.2  | 10.3.12 | 7.2.x | 3.4.2   | 4.0.12 |
-| 1.2.0      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.1   | 4.0.11 |
-| 1.1.1      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x | 3.4.0   | 4.0.10 |
-| 1.0.0      | 3.7    | 1.12.2  | 10.1.32 | 7.2.x | 3.4.0   | 4.0.6  |
+|   DevA 2   | Alpine |  Nginx  | MariaDB |  PHP   | Phalcon | Redis  |
+|------------|--------|---------|---------|--------|---------|--------|
+| **latest** | 3.10   | 1.16.1  | 10.3.18 | 7.3.10 | 3.4.4   | 5.0.5  |
+| 1.2.2      | 3.10   | 1.16.1  | 10.3.17 | 7.3.8  | 3.4.4   | 5.0.5  |
+| 1.2.1      | 3.9    | 1.14.2  | 10.3.12 | 7.2.x  | 3.4.2   | 4.0.12 |
+| 1.2.0      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x  | 3.4.1   | 4.0.11 |
+| 1.1.1      | 3.8    | 1.14.0  | 10.2.15 | 7.2.x  | 3.4.0   | 4.0.10 |
+| 1.0.0      | 3.7    | 1.12.2  | 10.1.32 | 7.2.x  | 3.4.0   | 4.0.6  |
 
 ## Ports
 
@@ -95,3 +96,10 @@ Install dnsmasq to route all .test domains to 127.0.0.1 without having to alter 
 I followed [this](https://grzegorowski.com/docker-with-xdebug-and-vdebug/) guide for the Xdebug configuration. You'll need to run the following command to give Xdebug access to the host machine:
 
 `sudo ifconfig lo0 alias 10.254.254.254`
+
+### Trust self-signed certificates
+
+Download all the certificates you need from cp.test.
+
+- [Instructions for macOS](https://tosbourn.com/getting-os-x-to-trust-self-signed-ssl-certificates/)
+- [Instructions on Linux](https://unix.stackexchange.com/a/90607)

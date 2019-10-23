@@ -48,7 +48,7 @@ if (\class_exists('\\Phalcon\Version')) {
 <p><b>Welcome!</b></p>
 
 <p>Make sure that <code>127.0.0.1 cp.test</code> is in your hosts file so you can access the DevA 2 control panel.</p>
-<p><a href="https://cp.test/">&rsaquo; Open the Control Panel</a></p>
+<p><a href="http://cp.test/">&rsaquo; Open the Control Panel</a></p>
 
 <hr>
 

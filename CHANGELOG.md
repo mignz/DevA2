@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.3] - 2019-10-23
+### Added
+- Instructions on how to add certificates to macOS keychain
+### Changed
+- Version update: MariaDB version 10.3.17 —> 10.3.18
+- Version update: PHP version 7.3.8 —> 7.3.10
+- Https -> http on the cp.test link in localhost
+
 ## [1.2.2] - 2019-08-15
 ### Changed
 - Version update: Alpine version 3.9 —> 3.10
@@ -77,7 +85,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.2...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.3...HEAD
+[1.2.3]: https://github.com/mignz/DevA2/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/mignz/DevA2/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/mignz/DevA2/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/mignz/DevA2/compare/v1.1.2...v1.2.0
