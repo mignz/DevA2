@@ -93,21 +93,21 @@ class Shell
     /**
      * Run a shell script and show output
      *
-     * @param string $file
+     * @param string $version
      * @return void
      */
-    public static function runPhalconUpgrade(): void
+    public static function runPhalconUpgrade($version): void
     {
         \set_time_limit(0);
         \putenv('PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin');
         
         \passthru(
             'cd /root && ' .
-            'curl -sLO https://github.com/phalcon/cphalcon/archive/master.tar.gz && ' .
-            'tar xzf /root/master.tar.gz && ' .
-            'cd /root/cphalcon-master/build && ' .
+            'curl -sLO https://github.com/phalcon/cphalcon/archive/' . trim($version) . '.tar.gz && ' .
+            'tar xzf /root/' . trim($version) . '.tar.gz && ' .
+            'cd /root/cphalcon-' . substr(trim($version), 1) . '/build && ' .
             'sh install 2>&1 && ' .
-            'rm -rf /root/cphalcon-master /root/master.tar.gz'
+            'rm -rf /root/cphalcon-' . substr(trim($version), 1) . ' /root/' . trim($version) . '.tar.gz'
         );
     }
     

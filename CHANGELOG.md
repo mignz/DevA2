@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.4] - 2019-12-07
+### Changed
+- Version update: MariaDB version 10.3.18 —> 10.3.20
+- Version update: PHP version 7.3.10 —> 7.3.11
+- Version update: Phalcon version 3.4.4 —> 3.4.5
+### Fixed
+- Phalcon was upgrading to non-stable versions
+
 ## [1.2.3] - 2019-10-23
 ### Added
 - Instructions on how to add certificates to macOS keychain
@@ -85,7 +93,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.4...HEAD
+[1.2.4]: https://github.com/mignz/DevA2/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/mignz/DevA2/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/mignz/DevA2/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/mignz/DevA2/compare/v1.2.0...v1.2.1

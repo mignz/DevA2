@@ -71,7 +71,7 @@ $app->get(
 $app->get(
     '/upgrade/sh',
     function () use ($app) {
-        Shell::runPhalconUpgrade();
+        Shell::runPhalconUpgrade($app['request']->getQuery('v'));
     }
 );
 

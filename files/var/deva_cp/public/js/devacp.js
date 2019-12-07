@@ -26,7 +26,7 @@ function checkPhalconVersion() {
     $('.phalcon-version').html(latestPhalconVersion.replace('v', ''));
     if (latestPhalconVersion.replace('v', '') != currentPhalconVer) {
       showNewVersionBadge();
-      $('.phalcon-version').append(' &mdash; <a href="/upgrade"><small>CLICK TO UPGRADE</small></a>');
+      $('.phalcon-version').append(' &mdash; <a href="/upgrade#' + latestPhalconVersion + '"><small>CLICK TO UPGRADE</small></a>');
     }
   });
 }
@@ -53,9 +53,10 @@ function getDeva2Version() {
 }
 
 function requestPhalconUpgrade() {
-  if (confirm('Phalcon will now be upgraded, it may take a few minutes...\nPress OK to start.')) {
+  var pv = location.hash.substr(1);
+  if (confirm('Phalcon will now be upgraded to ' + pv + ', it may take a few minutes...\nPress OK to start.')) {
     $.ajax({
-      url: '/upgrade/sh',
+      url: '/upgrade/sh?v=' + pv,
       timeout: 0
     }).done(function (data) {
       $('.phalcon-upgrade').html('<pre>' + data + '</pre>');
