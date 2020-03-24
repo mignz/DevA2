@@ -1,6 +1,5 @@
-{% extends 'layout/main.volt' %}
+<?php require_once(__DIR__ . '/layouts/header.phtml'); ?>
 
-{% block content %}
 <h3 class="float-left">Control Panel</h3>
 <a href="/add" class="btn btn-dark float-right add-btn"><i class="fas fa-plus-circle"></i> Add</a>
 <div class="clearfix"></div>
@@ -24,56 +23,54 @@
             </tr>
           </thead>
           <tbody>
-            {% for file, host in hosts %}
-            <tr{% if get['h'] is defined and get['h'] == host['domain'] %} class="highlighted"{% endif %}>
-              {% if loop.first %}
-              {% endif %}
+            <?php foreach ($hosts as $file => $host): ?>
+            <tr <?php if(isset($get['h']) and $get['h'] == $host['domain']): ?>class="highlighted"<?php endif; ?>>
               <th scope="row" width="200">
-                <span data-toggle="tooltip" title="{{ file }}">
-                  {% if host['default'] !== true and host['domain'] is 'localhost' %}
-                    <s>{{ host['domain'] }}</s>
-                  {% else %}
-                    {{ host['domain'] }}
-                  {% endif %}
+                <span data-toggle="tooltip" title="<?php echo $file; ?>">
+                  <?php if ($host['default'] !== true and $host['domain'] == 'localhost'): ?>
+                    <s><?php echo $host['domain']; ?></s>
+                  <?php else: ?>
+                    <?php echo $host['domain']; ?>
+                  <?php endif; ?>
                 </span>
               </th>
               <td>
-                <a href="https://{{ host['domain'] }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Open">
+                <a href="https://<?php echo $host['domain']; ?>" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Open">
                   <i class="fas fa-globe"></i>
                 </a>
-                <a href="/cert/{{ host['domain'] }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Download SSL Certificate">
+                <a href="/cert/<?php echo $host['domain']; ?>" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Download SSL Certificate">
                   <i class="fas fa-lock"></i>
                 </a>
-                {% if host['domain'] == 'localhost' or host['domain'] == 'cp.test' %}
+                <?php if ($host['domain'] == 'localhost' or $host['domain'] == 'cp.test'): ?>
                 <button class="btn btn-primary btn-sm" disabled>
                   <i class="fas fa-edit"></i>
                 </button>
-                {% else %}
-                <a href="/edit/{{ host['domain'] }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Edit">
+                <?php else: ?>
+                <a href="/edit/<?php echo $host['domain']; ?>" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Edit">
                   <i class="fas fa-edit"></i>
                 </a>
-                {% endif %}
-                {% if host['default'] %}
+                <?php endif; ?>
+                <?php if ($host['default']): ?>
                 <button class="btn btn-success btn-sm" data-toggle="tooltip" title="Is Default" disabled>
                   <i class="fas fa-asterisk"></i>
                 </button>
-                {% else %}
-                <a href="/default/{{ host['domain'] }}" class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Set Default">
+                <?php else: ?>
+                <a href="/default/<?php echo $host['domain']; ?>" class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Set Default">
                   <i class="fas fa-asterisk"></i>
                 </a>
-                {% endif %}
-                {% if host['domain'] == 'localhost' or host['domain'] == 'cp.test' or host['default'] %}
+                <? endif; ?>
+                <?php if ($host['domain'] == 'localhost' or $host['domain'] == 'cp.test' or $host['default']): ?>
                 <button class="btn btn-light btn-sm" data-toggle="tooltip" title="Remove" disabled>
                   <i class="fas fa-trash"></i>
                 </button>
-                {% else %}
-                <a href="/delete/{{ host['domain'] }}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Remove (No confirmation!)">
+                <?php else: ?>
+                <a href="/delete/<?php echo $host['domain']; ?>" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Remove (No confirmation!)">
                   <i class="fas fa-trash"></i>
                 </a>
-                {% endif %}
+                <?php endif; ?>
               </td>
             </tr>
-            {% endfor %}
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -100,32 +97,32 @@
           <tbody>
             <tr>
               <th scope="row" width="200">Dev&#923; 2</th>
-              <td><span class="deva-version-actual">{{ ver_deva2 }}</span> with <i class="fab fa-docker" data-toggle="tooltip" title="Docker"></i></td>
+              <td><span class="deva-version-actual"><?php echo $ver_deva2; ?></span> with <i class="fab fa-docker" data-toggle="tooltip" title="Docker"></i></td>
               <td class="deva-version">&hellip;</td>
             </tr>
             <tr>
               <th scope="row" width="200">Alpine</th>
-              <td>{{ ver_alpine }}</td>
+              <td><?php echo $ver_alpine; ?></td>
               <td class="alpine-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">Nginx</th>
-              <td>{{ ver_nginx }}</td>
+              <td><?php echo $ver_nginx; ?></td>
               <td class="nginx-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">PHP</th>
-              <td>{{ ver_php }}&nbsp;&nbsp;<a href="/phpinfo" data-toggle="tooltip" title="Show phpinfo()"><i class="fab fa-php"></i></a></td>
+              <td><?php echo $ver_php; ?>&nbsp;&nbsp;<a href="/phpinfo" data-toggle="tooltip" title="Show phpinfo()"><i class="fab fa-php"></i></a></td>
               <td class="php-version">&hellip;</td>
             </tr>
             <tr>
               <th scope="row" width="200">MariaDB</th>
-              <td>{{ ver_db }}</td>
+              <td><?php echo $ver_db; ?></td>
               <td class="mariadb-version"></td>
             </tr>
             <tr>
               <th scope="row" width="200">Phalcon</th>
-              <td class="phalcon-version-actual">{{ ver_phalcon }}</td>
+              <td class="phalcon-version-actual"><?php echo $ver_phalcon; ?></td>
               <td class="phalcon-version">&hellip;</td>
             </tr>
           </tbody>
@@ -170,7 +167,7 @@
             <tr>
               <th scope="row" width="200">MySQL</th>
               <td>
-                <span class="badge badge-{{ sql_badge }}">{{ sql_status }}</span>&nbsp;&nbsp;<small>
+                <span class="badge badge-<?php echo $sql_badge; ?>"><?php echo $sql_status; ?></span>&nbsp;&nbsp;<small>
                   <a href="#" class="restart-service" service="mysql" data-toggle="tooltip" title="Restart MySQL (MariaDB)"><i class="fas fa-sync-alt"></i></a>
                 </small>
               </td>
@@ -178,7 +175,7 @@
             <tr>
               <th scope="row" width="200">Redis</th>
               <td>
-                <span class="badge badge-{{ redis_badge }}">{{ redis_status }}</span>&nbsp;&nbsp;<small>
+                <span class="badge badge-<?php echo $redis_badge; ?>"><?php echo $redis_status; ?></span>&nbsp;&nbsp;<small>
                   <a href="#" class="restart-service" service="redis" data-toggle="tooltip" title="Start/Restart Redis"><i class="fas fa-sync-alt"></i></a>
                 </small>
               </td>
@@ -201,28 +198,28 @@
         <form action="/smtp" method="post" class="needs-validation" novalidate>
           <div class="form-group">
             <label for="server">SMTP Server</label>
-            <input name="server" type="text" class="form-control" id="server" value="{{ smtp['server'] }}" pattern="[a-zA-Z0-9\-_.]{3,}" required placeholder="mail.domain.com">
+            <input name="server" type="text" class="form-control" id="server" value="<?php echo $smtp['server']; ?>" pattern="[a-zA-Z0-9\-_.]{3,}" required placeholder="mail.domain.com">
             <div class="invalid-feedback">
               You must specify an SMTP server!
             </div>
           </div>
           <div class="form-group">
             <label for="port">SMTP Server Port</label>
-            <input name="port" type="number" class="form-control" id="port" value="{{ smtp['port'] }}" required placeholder="25">
+            <input name="port" type="number" class="form-control" id="port" value="<?php echo $smtp['port']; ?>" required placeholder="25">
             <div class="invalid-feedback">
               You must specify an SMTP server numeric port!
             </div>
           </div>
           <div class="form-group">
             <label for="user">SMTP Username</label>
-            <input name="user" type="text" class="form-control" id="user" value="{{ smtp['user'] }}" pattern="[a-zA-Z0-9\-_.@]{3,}" required placeholder="address@domain.com">
+            <input name="user" type="text" class="form-control" id="user" value="<?php echo $smtp['user']; ?>" pattern="[a-zA-Z0-9\-_.@]{3,}" required placeholder="address@domain.com">
             <div class="invalid-feedback">
               You must specify an SMTP username (usually an email address)!
             </div>
           </div>
           <div class="form-group">
             <label for="pass">SMTP Password</label>
-            <input name="pass" type="password" class="form-control" id="pass" value="{{ smtp['pass'] }}" placeholder="Password">
+            <input name="pass" type="password" class="form-control" id="pass" value="<?php echo $smtp['pass']; ?>" placeholder="Password">
             <div class="invalid-feedback">
               You must specify the SMTP password!
             </div>
@@ -248,9 +245,9 @@
             <label for="timezone">Timezone</label>
             <select name="timezone" id="timezone" class="form-control" required>
               <option value="">Select a timezone</option>
-              {% for tzk, tz in timezones %}
-              <option value="{{ tzk }}"{% if tzk is timezone %} selected{% endif %}>{{ tz }}</option>
-              {% endfor %}
+              <?php foreach ($timezones as $tzk => $tz): ?>
+                <option value="<?php echo $tzk; ?>"<?php if($tzk == $timezone): ?> selected<?php endif; ?>><?php echo $tz; ?></option>
+              <?php endforeach; ?>
             </select>
             <div class="invalid-feedback">
               You must specify a timezone!
@@ -297,21 +294,22 @@
             </tr>
           </thead>
           <tbody>
-            {% for file in files %}
+            <?php foreach($files as $file): ?>
             <tr>
-              <th scope="row"><?=basename($file)?></th>
+              <th scope="row"><?php echo basename($file); ?></th>
               <td>
-                <a href="/restore/<?=basename($file)?>" class="btn btn-sm btn-primary" onclick="return showLoadingScreen('This may take a while, continue?')">Restore</a>
-                <a href="/deletebackup/<?=basename($file)?>" class="btn btn-sm btn-danger" onclick="return showLoadingScreen('Delete this backup file?\nThis action is irreversible!')">Delete</a>
+                <a href="/restore/<?php echo basename($file); ?>" class="btn btn-sm btn-primary" onclick="return showLoadingScreen('This may take a while, continue?')">Restore</a>
+                <a href="/deletebackup/<?php echo basename($file); ?>" class="btn btn-sm btn-danger" onclick="return showLoadingScreen('Delete this backup file?\nThis action is irreversible!')">Delete</a>
               </td>
             </tr>
-            {% endfor %}
+            <?php endforeach; ?>
           </tbody>
         </table>
-        <small><b>Note:</b> Place your backup files in the websites directory with a valid name, for example: <i>DevA2_Backup_<?=date('Y-m-d_Hi')?>.tar.gz</i>.</small><br>
+        <small><b>Note:</b> Place your backup files in the websites directory with a valid name, for example: <i>DevA2_Backup_<?php echo date('Y-m-d_Hi'); ?>.tar.gz</i>.</small><br>
         <small><b>Warning:</b> Restoring a previous backup will replace any existing conflicting files! For the best results, make sure this is a clean installation of Dev&#923;2.</small>
       </div>
     </div>
   </div>
 </div>
-{% endblock %}
+
+<?php require_once(__DIR__ . '/layouts/footer.phtml'); ?>

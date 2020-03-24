@@ -3,10 +3,15 @@
 
 namespace DevA2;
 
-use Phalcon\Flash\Direct;
+use Phalcon\Debug;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Simple as View;
+
+/**
+ * Phalcon Debugger
+ */
+(new Debug())->listen();
 
 /**
  * Phalcon autoloader
@@ -14,34 +19,26 @@ use Phalcon\Mvc\View\Simple as View;
 require __DIR__ . '/../app/loader.php';
 
 /**
- * Instantiate the Micro application
+ * Container
  */
-$app = new Micro();
+$container = new FactoryDefault();
 
 /**
  * Load the view service with volt
  */
-$app['volt'] = function ($view, $di) {
-    $volt = new Volt($view, $di);
-    $volt->setOptions(
-        [
-            'compiledPath'      => __DIR__ . '/../app/cache/volt/',
-            'compiledExtension' => '.compiled',
-            'compileAlways'     => false // True for development
-        ]
-    );
-    return $volt;
-};
-$app['view'] = function () {
-    $view = new View();
-    $view->setViewsDir(__DIR__ . '/../app/views/');
-    $view->registerEngines(
-        [
-            '.volt' => 'volt',
-        ]
-    );
-    return $view;
-};
+$container->set(
+    'view',
+    function () {
+        $view = new View();
+        $view->setViewsDir(__DIR__ . '/../app/views/');
+        return $view;
+    }
+);
+
+/**
+ * Instantiate the Micro application
+ */
+$app = new Micro($container);
 
 /**
  * Load the app content
@@ -61,7 +58,7 @@ $app->notFound(
  * Error handler
  */
 $app->error(
-    function ($exception) use ($app) {
+    function () use ($app) {
         echo $app['view']->render('errors/woops');
     }
 );
@@ -69,4 +66,6 @@ $app->error(
 /**
  * Start the app
  */
-$app->handle();
+$app->handle(
+    $_SERVER['REQUEST_URI']
+);

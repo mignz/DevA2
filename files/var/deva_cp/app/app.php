@@ -49,7 +49,7 @@ $app->get(
  */
 $app->get(
     '/version/php',
-    function () use ($app) {
+    function () {
         \header('Content-type: application/json; charset=utf-8');
         echo \file_get_contents('https://secure.php.net/releases/index.php?json');
     }
@@ -80,7 +80,7 @@ $app->get(
  */
 $app->get(
     '/reload/{service}',
-    function ($service) use ($app) {
+    function ($service) {
         Shell::restartService($service);
     }
 );
@@ -117,7 +117,7 @@ $app->post(
  */
 $app->get(
     '/cert/{domain}',
-    function ($domain) use ($app) {
+    function ($domain) {
         if (\file_exists('/etc/nginx/deva/ssl/' . $domain . '.crt')) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -304,7 +304,7 @@ $app->post(
  */
 $app->get(
     '/delete/{domain}',
-    function ($domain) use ($app) {
+    function ($domain) {
         if (!\in_array($domain, ['cp.test', 'localhost'])) {
             Hosts::deleteVirtualHost($domain);
             Shell::deleteCertificate($domain);
@@ -319,7 +319,7 @@ $app->get(
  */
 $app->get(
     '/default/{domain}',
-    function ($domain) use ($app) {
+    function ($domain) {
         Hosts::defaultVirtualHost($domain);
         Shell::restartService('nginx');
         \header('Location: /');
@@ -415,7 +415,7 @@ $app->get(
  */
 $app->get(
     '/deletebackup/{file}',
-    function ($file) use ($app) {
+    function ($file) {
         \set_time_limit(0);
         $file = \preg_replace('/[^a-zA-Z0-9_\-.]/', null, $file);
         if (\file_exists(Hosts::WWWPATH . '/' . $file)) {

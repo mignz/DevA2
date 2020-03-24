@@ -2,16 +2,18 @@ FROM alpine:3.10
 
 LABEL maintainer="me@mnunes.com"
 
-ENV NGINX_VERSION=1.16.1-r1
+ENV NGINX_VERSION=1.16.1-r2
 ENV S6_VERSION=2.8.0.1-r0
-ENV PHP_VERSION=7.3.11-r0
-ENV PHALCON_VERSION=3.4.5
+ENV PHP_VERSION=7.4.3-r1
+ENV PHALCON_VERSION=4.0.5
 ENV MARIADB_VERSION=10.3.20-r0
 ENV REDIS_VERSION=5.0.5-r0
 ENV SSMTP_VERSION=2.64-r14
+ENV ZEPHIR_VERSION=0.12.17
 
-RUN apk update && \
-    apk add --no-cache curl \
+ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+
+RUN apk add --update --no-cache curl \
         ssmtp=$SSMTP_VERSION \
         redis=$REDIS_VERSION \
         ca-certificates \
@@ -20,7 +22,18 @@ RUN apk update && \
         openssl \
         mysql=$MARIADB_VERSION \
         mysql-client=$MARIADB_VERSION \
-        php7=$PHP_VERSION \
+        gcc \
+        make \
+        autoconf \
+        libc-dev \
+        libpcre32 \
+        pcre-dev \
+        pcre2 \
+        pcre2-dev \
+        file \
+        re2c && \
+    echo "https://dl.bintray.com/php-alpine/v3.10/php-7.4" >> /etc/apk/repositories && \
+    apk add --update --no-cache php7=$PHP_VERSION \
         php7-bcmath=$PHP_VERSION \
         php7-bz2=$PHP_VERSION \
         php7-calendar=$PHP_VERSION \
@@ -37,7 +50,6 @@ RUN apk update && \
         php7-gettext=$PHP_VERSION \
         php7-gmp=$PHP_VERSION \
         php7-iconv=$PHP_VERSION \
-        php7-imagick \
         php7-imap=$PHP_VERSION \
         php7-intl=$PHP_VERSION \
         php7-json=$PHP_VERSION \
@@ -52,6 +64,7 @@ RUN apk update && \
         php7-phar=$PHP_VERSION \
         php7-posix=$PHP_VERSION \
         php7-pspell=$PHP_VERSION \
+        php7-psr \
         php7-redis \
         php7-session=$PHP_VERSION \
         php7-soap=$PHP_VERSION \
@@ -66,14 +79,7 @@ RUN apk update && \
         php7-xmlreader=$PHP_VERSION \
         php7-xsl=$PHP_VERSION \
         php7-zip=$PHP_VERSION \
-        gcc \
-        make \
-        autoconf \
-        libc-dev \
-        libpcre32 \
-        pcre-dev \
-        file \
-        re2c && \
+        php7-zlib=$PHP_VERSION && \
     cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default && \
     rm -rf /var/www/localhost && \
     mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 && \
@@ -90,8 +96,18 @@ RUN apk update && \
     [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
     echo "zend_extension=xdebug.so" > /etc/php7/conf.d/xdebug.ini && \
     adduser -D -g 'www' www && \
+    curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
+    mv zephir.phar zephir && \
+    chmod +x zephir && \
+    mv zephir /usr/bin && \
+    curl -LOs https://github.com/phalcon/php-zephir-parser/archive/development.tar.gz && \
+    tar xzf development.tar.gz && cd php-zephir-parser-development && phpize && ./configure && make && make install && \
+    rm -rf /php-zephir-parser-development /development.tar.gz  && \
+    echo "extension=zephir_parser.so" > /etc/php7/conf.d/20_zephir_parser.ini && \
+    cd / && \
     curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
-    tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION}/build && sh install && \
+    tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION} && zephir fullclean && zephir compile && \
+    cd ext && phpize && ./configure && make && make install && \
     echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
     rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
     rm -rf /var/cache/apk/*

@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.5] - 2020-03-23
+### New
+ - Added PSR PHP extension
+### Changed
+- Version update: PHP version 7.3.11 —> 7.4.3
+- Version update: Phalcon version 3.4.5 —> 4.0.5
+- Temporarily removed Imagick PHP extension
+
 ## [1.2.4] - 2019-12-07
 ### Changed
 - Version update: MariaDB version 10.3.18 —> 10.3.20
@@ -93,7 +101,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.4...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.5...HEAD
+[1.2.5]: https://github.com/mignz/DevA2/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/mignz/DevA2/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/mignz/DevA2/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/mignz/DevA2/compare/v1.2.1...v1.2.2
