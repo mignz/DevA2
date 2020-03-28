@@ -85,7 +85,7 @@ RUN apk add --update --no-cache curl \
     mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 && \
     echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql && \
     echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql && \
-    mkdir -p /run/mysqld && \
+    mkdir -p /run/mysqld /run/nginx && \
     /usr/bin/mysqld --user=root --datadir='/var/lib/mysql' --bootstrap --verbose=0 < /tmp/deva.sql && \
     rm -f /tmp/deva.sql && \
     cp /etc/php7/php.ini /etc/php7/php.ini.default && \
@@ -95,20 +95,20 @@ RUN apk add --update --no-cache curl \
     [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize7 /usr/bin/phpize && \
     [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
     adduser -D -g 'www' www && \
-    curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
-    mv zephir.phar zephir && \
-    chmod +x zephir && \
-    mv zephir /usr/bin && \
-    curl -LOs https://github.com/phalcon/php-zephir-parser/archive/development.tar.gz && \
-    tar xzf development.tar.gz && cd php-zephir-parser-development && phpize && ./configure && make && make install && \
-    rm -rf /php-zephir-parser-development /development.tar.gz  && \
-    echo "extension=zephir_parser.so" > /etc/php7/conf.d/20_zephir_parser.ini && \
-    cd / && \
-    curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
-    tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION} && zephir fullclean && zephir compile && \
-    cd ext && phpize && ./configure && make && make install && \
-    echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
-    rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
+    # curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
+    # mv zephir.phar zephir && \
+    # chmod +x zephir && \
+    # mv zephir /usr/bin && \
+    # curl -LOs https://github.com/phalcon/php-zephir-parser/archive/development.tar.gz && \
+    # tar xzf development.tar.gz && cd php-zephir-parser-development && phpize && ./configure && make && make install && \
+    # rm -rf /php-zephir-parser-development /development.tar.gz  && \
+    # echo "extension=zephir_parser.so" > /etc/php7/conf.d/20_zephir_parser.ini && \
+    # cd / && \
+    # curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
+    # tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION} && zephir fullclean && zephir compile && \
+    # cd ext && phpize && ./configure && make && make install && \
+    # echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
+    # rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
     rm -rf /var/cache/apk/*
 
 ADD files /
@@ -127,4 +127,4 @@ EXPOSE 80 443 3306
 
 ENTRYPOINT ["s6-svscan", "/etc/s6"]
 
-HEALTHCHECK --timeout=30s CMD curl --silent --fail http://127.0.0.1
+HEALTHCHECK --interval=5m --timeout=5s CMD curl --silent --fail http://127.0.0.1/fpm-ping

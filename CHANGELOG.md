@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ## [1.3.1] - 2020-03-28
+### New
+- Added a Docker HEALTHCHECK instruction
+### Changed
+- Disabled Xdebug remote by default to improve PHP performance
 ### Fixed
 - Phalcon upgrade script was not working
-- Xdebug extension was trying to load twice
+- Duplicated Xdebug extension ini file
+- Nginx logs were not completely disabled
 
 ## [1.3.0] - 2020-03-23
 ### New
- - Added PSR PHP extension
+- Added PSR PHP extension
 ### Changed
 - Version update: PHP version 7.3.11 —> 7.4.3
 - Version update: Phalcon version 3.4.5 —> 4.0.5

@@ -99,6 +99,8 @@ I followed [this](https://grzegorowski.com/docker-with-xdebug-and-vdebug/) guide
 
 `sudo ifconfig lo0 alias 10.254.254.254`
 
+_**Note:** Xdebug remote is disabled by default. To enable it, run the following command in the container: `sed -i 's/xdebug.remote_autostart = 0/xdebug.remote_autostart = 1/' /etc/php7/php.ini` and restart PHP-FPM._
+
 ### Trust self-signed certificates
 
 Download all the certificates you need from cp.test.
