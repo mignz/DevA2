@@ -105,8 +105,9 @@ class Shell
             'cd /root && ' .
             'curl -sLO https://github.com/phalcon/cphalcon/archive/' . trim($version) . '.tar.gz && ' .
             'tar xzf /root/' . trim($version) . '.tar.gz && ' .
-            'cd /root/cphalcon-' . substr(trim($version), 1) . '/build && ' .
-            'sh install 2>&1 && ' .
+            'cd /root/cphalcon-' . substr(trim($version), 1) . ' && ' .
+            'zephir fullclean 2>&1 && zephir compile 2>&1 && ' .
+            'cd ext && phpize && ./configure && make && make install && ' .
             'rm -rf /root/cphalcon-' . substr(trim($version), 1) . ' /root/' . trim($version) . '.tar.gz'
         );
     }

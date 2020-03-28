@@ -4,7 +4,7 @@
 
 docker stop "$(docker ps -a -q --filter ancestor=deva2dev)"
 docker rm "$(docker ps -a -q --filter ancestor=deva2dev)"
-docker system prune -a
+docker system prune -af
 
 docker build -t deva2dev .
 docker run -d -it \
@@ -13,4 +13,5 @@ docker run -d -it \
     -v "$HOME"/www:/var/www \
     deva2dev
 
-docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" ash
+docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" /bin/sh -c "apk add nano bash && echo \"alias ll='ls -alFh --color=auto'\" > ~/.bashrc"
+docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" bash

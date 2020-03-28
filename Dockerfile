@@ -94,7 +94,6 @@ RUN apk add --update --no-cache curl \
     [ -f /usr/bin/php ] || ln -s /usr/bin/php7 /usr/bin/php && \
     [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize7 /usr/bin/phpize && \
     [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
-    echo "zend_extension=xdebug.so" > /etc/php7/conf.d/xdebug.ini && \
     adduser -D -g 'www' www && \
     curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
     mv zephir.phar zephir && \
@@ -127,3 +126,5 @@ VOLUME /var/lib/mysql
 EXPOSE 80 443 3306
 
 ENTRYPOINT ["s6-svscan", "/etc/s6"]
+
+HEALTHCHECK --timeout=30s CMD curl --silent --fail http://127.0.0.1

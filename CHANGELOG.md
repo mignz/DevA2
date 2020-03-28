@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.2.5] - 2020-03-23
+## [1.3.1] - 2020-03-28
+### Fixed
+- Phalcon upgrade script was not working
+- Xdebug extension was trying to load twice
+
+## [1.3.0] - 2020-03-23
 ### New
  - Added PSR PHP extension
 ### Changed
@@ -101,8 +106,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.2.5...HEAD
-[1.2.5]: https://github.com/mignz/DevA2/compare/v1.2.4...v1.2.5
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/mignz/DevA2/compare/v1.3.0...v1.3.1
+[1.3.0]: https://github.com/mignz/DevA2/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/mignz/DevA2/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/mignz/DevA2/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/mignz/DevA2/compare/v1.2.1...v1.2.2
