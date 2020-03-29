@@ -95,20 +95,20 @@ RUN apk add --update --no-cache curl \
     [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize7 /usr/bin/phpize && \
     [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm && \
     adduser -D -g 'www' www && \
-    # curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
-    # mv zephir.phar zephir && \
-    # chmod +x zephir && \
-    # mv zephir /usr/bin && \
-    # curl -LOs https://github.com/phalcon/php-zephir-parser/archive/development.tar.gz && \
-    # tar xzf development.tar.gz && cd php-zephir-parser-development && phpize && ./configure && make && make install && \
-    # rm -rf /php-zephir-parser-development /development.tar.gz  && \
-    # echo "extension=zephir_parser.so" > /etc/php7/conf.d/20_zephir_parser.ini && \
-    # cd / && \
-    # curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
-    # tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION} && zephir fullclean && zephir compile && \
-    # cd ext && phpize && ./configure && make && make install && \
-    # echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
-    # rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
+    curl -LOs https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar && \
+    mv zephir.phar zephir && \
+    chmod +x zephir && \
+    mv zephir /usr/bin && \
+    curl -LOs https://github.com/phalcon/php-zephir-parser/archive/development.tar.gz && \
+    tar xzf development.tar.gz && cd php-zephir-parser-development && phpize && ./configure && make && make install && \
+    rm -rf /php-zephir-parser-development /development.tar.gz  && \
+    echo "extension=zephir_parser.so" > /etc/php7/conf.d/20_zephir_parser.ini && \
+    cd / && \
+    curl -LOs https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.tar.gz && \
+    tar xzf v${PHALCON_VERSION}.tar.gz && cd cphalcon-${PHALCON_VERSION} && zephir fullclean && zephir compile && \
+    cd ext && phpize && ./configure && make && make install && \
+    echo "extension=phalcon.so" > /etc/php7/conf.d/20_phalcon.ini && \
+    rm -rf /v${PHALCON_VERSION}.tar.gz /cphalcon-${PHALCON_VERSION} && \
     rm -rf /var/cache/apk/*
 
 ADD files /

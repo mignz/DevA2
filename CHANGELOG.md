@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.3.1] - 2020-03-28
+## [1.3.1] - 2020-03-29
 ### New
 - Added a Docker HEALTHCHECK instruction
 ### Changed
