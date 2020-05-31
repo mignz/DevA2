@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.3.2] - 2020-05-31
+### Changed
+- Version update: Alpine version 3.10 -> 3.11
+- Version update: PHP version 7.4.3 —> 7.4.5
+- Version update: Phalcon version 4.0.5 —> 4.0.6
+- Version update: Redis version 5.0.5 —> 5.0.7
+- Version update: MariaDB version 10.3.20 —> 10.4.13
+
 ## [1.3.1] - 2020-03-29
 ### New
 - Added a Docker HEALTHCHECK instruction
@@ -111,7 +119,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.3.2...HEAD
+[1.3.2]: https://github.com/mignz/DevA2/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/mignz/DevA2/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/mignz/DevA2/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/mignz/DevA2/compare/v1.2.3...v1.2.4
