@@ -18,8 +18,8 @@ RUN set -x \
         nginx=$NGINX_VERSION \
         s6=$S6_VERSION \
         openssl \
-        mysql=$MARIADB_VERSION \
-        mysql-client=$MARIADB_VERSION \
+        mariadb=$MARIADB_VERSION \
+        mariadb-client=$MARIADB_VERSION \
         gcc \
         make \
         autoconf \
@@ -84,6 +84,7 @@ RUN set -x \
     && mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 \
     && echo -e "USE mysql;\nFLUSH PRIVILEGES;\nCREATE USER 'root'@'%';" > /tmp/deva.sql \
     && echo -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '';\nFLUSH PRIVILEGES;" >> /tmp/deva.sql \
+    && sed -i 's/skip-networking/#skip-networking/' /etc/my.cnf.d/mariadb-server.cnf \
     && mkdir -p /run/mysqld /run/nginx \
     && /usr/bin/mysqld --user=root --datadir='/var/lib/mysql' --bootstrap --verbose=0 < /tmp/deva.sql \
     && rm -f /tmp/deva.sql \

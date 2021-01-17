@@ -13,5 +13,4 @@ docker run -d -it \
     -v "$HOME"/www:/var/www \
     deva2dev
 
-docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" /bin/sh -c "apk add nano bash && echo \"alias ll='ls -alFh --color=auto'\" > ~/.bashrc"
-docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" bash
+docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" ash

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.4.1] - 2021-01-17
+### Changed
+- Fixed MySQL connection not working on the host machine
+
 ## [1.4.0] - 2021-01-15
 ### Changed
 - Added support for multiple architectures
@@ -129,7 +133,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/mignz/DevA2/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/mignz/DevA2/compare/v1.3.2...v1.4.0
 [1.3.2]: https://github.com/mignz/DevA2/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/mignz/DevA2/compare/v1.3.0...v1.3.1
