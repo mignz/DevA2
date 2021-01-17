@@ -1,9 +1,9 @@
 [ req ]
-#default_bits      = 2048
-#default_md        = sha256
-#default_keyfile   = privkey.pem
-distinguished_name = req_distinguished_name
-attributes         = req_attributes
+#default_bits          = 2048
+#default_md            = sha256
+#default_keyfile        = privkey.pem
+distinguished_name     = req_distinguished_name
+attributes             = req_attributes
 
 [ req_distinguished_name ]
 countryName            = Country Name (2 letter code)
@@ -19,9 +19,9 @@ emailAddress           = Email Address
 emailAddress_max       = 64
 
 [ req_attributes ]
-challengePassword     = A challenge password
-challengePassword_min = 4
-challengePassword_max = 20
+challengePassword      = A challenge password
+challengePassword_min  = 4
+challengePassword_max  = 20
 
 [ san_env ]
-subjectAltName = ${ENV::SAN}
+subjectAltName         = ${ENV::SAN}
