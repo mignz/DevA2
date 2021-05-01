@@ -14,3 +14,7 @@ docker run -d -it \
     deva2dev
 
 docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" ash
+
+# PUSHING
+
+# docker buildx build -t mnunes/deva2:latest --platform linux/amd64,linux/arm64 --push .

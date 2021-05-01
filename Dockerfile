@@ -3,12 +3,11 @@ FROM alpine:3.13
 ENV \
     NGINX_VERSION=1.18.0-r13 \
     S6_VERSION=2.10.0.0-r0 \
-    PHP_VERSION=7.4.14-r0 \
-    PHALCON_VERSION=4.1.0-r0 \
-    MARIADB_VERSION=10.5.8-r0 \
-    REDIS_VERSION=6.0.10-r0 \
-    SSMTP_VERSION=2.64-r14 \
-    ZEPHIR_VERSION=0.12.20
+    PHP_VERSION=7.4.15-r0 \
+    PHALCON_VERSION=4.1.2-r0 \
+    MARIADB_VERSION=10.5.9-r0 \
+    REDIS_VERSION=6.0.11-r0 \
+    SSMTP_VERSION=2.64-r14
 
 RUN set -x \
     && apk add --update --no-cache curl \
@@ -63,7 +62,6 @@ RUN set -x \
         php7-pecl-psr \
         php7-pecl-redis \
         php7-pecl-xdebug \
-        php7-phalcon=$PHALCON_VERSION \
         php7-phar=$PHP_VERSION \
         php7-posix=$PHP_VERSION \
         php7-pspell=$PHP_VERSION \
@@ -79,6 +77,7 @@ RUN set -x \
         php7-xmlreader=$PHP_VERSION \
         php7-xsl=$PHP_VERSION \
         php7-zip=$PHP_VERSION \
+    && apk add --no-cache php7-phalcon=$PHALCON_VERSION --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     && cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default \
     && rm -rf /var/www/localhost \
     && mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 \
