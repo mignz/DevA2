@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.5.0] - 2021-09-19
+### Changed
+- Version update: Alpine version 3.13 -> 3.14
+- Version update: Nginx version 1.18.0 —> 1.20.1
+- Version update: MariaDB version 10.5.9 —> 10.5.12
+- Version update: Phalcon version 4.1.2 —> 5.0.0alpha6
+- Version update: PHP version 7.4.15 —> 8.0.10
+- Version update: Redis version 6.0.11 —> 6.2.5
+
 ## [1.4.2] - 2021-05-01
 ### Changed
 - Version update: MariaDB version 10.5.8 —> 10.5.9
@@ -22,7 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added support for multiple architectures
 - Version update: Alpine version 3.11 -> 3.13
 - Version update: MariaDB version 10.4.13 —> 10.5.8
-- Version update: Nginx version 1.16.1 —> 1.18.0
 - Version update: PHP version 7.4.5 —> 7.4.14
 - Version update: Phalcon version 4.0.6 —> 4.1.0
 - Version update: Redis version 5.0.7 —> 6.0.10
@@ -140,7 +148,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/mignz/DevA2/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/mignz/DevA2/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/mignz/DevA2/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/mignz/DevA2/compare/v1.3.2...v1.4.0

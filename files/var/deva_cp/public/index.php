@@ -3,7 +3,7 @@
 
 namespace DevA2;
 
-use Phalcon\Debug;
+use Phalcon\Support\Debug;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\View\Simple as View;

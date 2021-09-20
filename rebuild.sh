@@ -6,7 +6,7 @@ docker stop "$(docker ps -a -q --filter ancestor=deva2dev)"
 docker rm "$(docker ps -a -q --filter ancestor=deva2dev)"
 docker system prune -af
 
-docker build -t deva2dev .
+docker build --progress=plain -t deva2dev .
 docker run -d -it \
     --name deva2dev \
     -p 80:80 -p 443:443 -p 3306:3306 \

@@ -35,7 +35,7 @@
 
 <?php
 
-if (\class_exists('\\Phalcon\Version')) {
+if (\class_exists('\\Phalcon\Support\Version')) {
     $link = @mysqli_connect('localhost', 'root', '') or die('MYSQL INOP!');
     @mysqli_select_db($link, 'mysql') or die('MYSQL INOP!');
     echo '<!--phalcon&mysql.working-->';
@@ -60,7 +60,7 @@ $dirs = \glob('/var/www/*');
 
 foreach ($dirs as $dir) {
     if (\is_dir($dir)) {
-        $dir = \str_replace('/var/www/', null, $dir);
+        $dir = \str_replace('/var/www/', '', $dir);
         echo '- <a href="/' . $dir . '">' . $dir . '</a><br>';
     }
 }

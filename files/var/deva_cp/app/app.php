@@ -19,7 +19,7 @@ $app->get(
             'ver_nginx' => Shell::getShellOutput('nginx -v 2>&1 | cut -d/ -f2'),
             'ver_php' => Shell::getShellOutput('php -r "echo phpversion();"'),
             'ver_db' => Shell::getShellOutput('mysql -V | awk \'{print $5}\' | cut -d- -f1'),
-            'ver_phalcon' => Shell::getShellOutput('php -r "echo Phalcon\Version::get();"'),
+            'ver_phalcon' => Shell::getShellOutput('php -r "echo (new Phalcon\Support\Version())->get();"'),
             'sql_status' => Shell::serviceRunning('mysql') ? 'RUNNING' : 'STOPPED',
             'sql_badge' => Shell::serviceRunning('mysql') ? 'success' : 'danger',
             'redis_status' => Shell::serviceRunning('redis') ? 'RUNNING' : 'STOPPED',
