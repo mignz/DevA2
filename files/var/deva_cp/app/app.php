@@ -417,7 +417,7 @@ $app->get(
     '/deletebackup/{file}',
     function ($file) {
         \set_time_limit(0);
-        $file = \preg_replace('/[^a-zA-Z0-9_\-.]/', null, $file);
+        $file = \preg_replace('/[^a-zA-Z0-9_\-.]/', '', $file);
         if (\file_exists(Hosts::WWWPATH . '/' . $file)) {
             \unlink(Hosts::WWWPATH . '/' . $file);
             \header('Location: /');

@@ -28,8 +28,8 @@ class Hosts
     {
         $hostFiles = \glob('/etc/nginx/deva/vhosts/*.conf');
         \usort($hostFiles, function ($a, $b) {
-            $a = \str_replace('___', null, $a);
-            $b = \str_replace('___', null, $b);
+            $a = \str_replace('___', '', $a);
+            $b = \str_replace('___', '', $b);
             return \strcasecmp($a, $b);
         });
         
@@ -105,7 +105,7 @@ class Hosts
         if (\substr($domain, 0, 3) != '___' and \file_exists('/etc/nginx/deva/vhosts/' . $domain . '.conf')) {
             $currentDefault = \glob('/etc/nginx/deva/vhosts/___*');
             foreach ($currentDefault as $config) {
-                \rename($config, \str_replace('___', null, $config));
+                \rename($config, \str_replace('___', '', $config));
             }
             \rename('/etc/nginx/deva/vhosts/' . $domain . '.conf', '/etc/nginx/deva/vhosts/___' . $domain . '.conf');
         }
@@ -121,7 +121,7 @@ class Hosts
     {
         $conf = self::getConfig($domain);
         \preg_match('/root\s(.*?);/', $conf, $matches);
-        return \str_replace([self::WWWPATH . '/', self::WWWPATH], null, $matches[1]);
+        return \str_replace([self::WWWPATH . '/', self::WWWPATH], '', $matches[1]);
     }
     
     /**
@@ -187,7 +187,7 @@ class Hosts
      *
      * @param string $domain
      * @param int $action
-     * @return void
+     * @return string
      */
     public static function tld(string $domain, int $action): string
     {

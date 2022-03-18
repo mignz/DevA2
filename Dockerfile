@@ -1,13 +1,13 @@
-FROM alpine:3.14
+FROM alpine:3.15
 
 ENV \
-    NGINX_VERSION=1.20.1-r3 \
-    S6_VERSION=2.10.0.3-r0 \
-    PHP_VERSION=8.0.10-r0 \
-    PHALCON_VERSION=5.0.0-r0 \
-    MARIADB_VERSION=10.5.12-r0 \
-    REDIS_VERSION=6.2.5-r0 \
-    SSMTP_VERSION=2.64-r14
+    NGINX_VERSION=1.20.2-r0 \
+    S6_VERSION=2.11.0.0-r0 \
+    PHP_VERSION=8.0.16-r0 \
+    PHALCON_VERSION=5.0.0beta3 \
+    MARIADB_VERSION=10.6.7-r0 \
+    REDIS_VERSION=6.2.6-r0 \
+    SSMTP_VERSION=2.64-r16
 
 RUN set -x \
     && apk add --update --no-cache curl \
@@ -66,6 +66,7 @@ RUN set -x \
         php8-posix=$PHP_VERSION \
         php8-pspell=$PHP_VERSION \
         php8-session=$PHP_VERSION \
+        php8-sodium=$PHP_VERSION \
         php8-soap=$PHP_VERSION \
         php8-sockets=$PHP_VERSION \
         php8-sqlite3=$PHP_VERSION \
@@ -94,7 +95,7 @@ RUN set -x \
     && [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm8 /usr/sbin/php-fpm \
     && adduser -D -g 'www' www \
     && rm -rf /var/cache/apk/* \
-    && git clone --depth=1 --branch v5.0.0alpha6 "git://github.com/phalcon/cphalcon.git" /root/cphalcon \
+    && git clone --depth=1 --branch v$PHALCON_VERSION "https://github.com/phalcon/cphalcon.git" /root/cphalcon \
     && cd /root/cphalcon/build \
     && ./install \
     && echo "extension=phalcon.so" > /etc/php8/conf.d/phalcon.ini

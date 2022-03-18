@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.5.1] - 2022-03-18
+### Changed
+- Added PHP libsodium extension
+- Version update: Alpine version 3.14 -> 3.15
+- Version update: Nginx version 1.20.1 -> 1.20.2
+- Version update: MariaDB version 10.5.12 -> 10.6.7
+- Version update: Phalcon version 5.0.0alpha6 —> 5.0.0beta3
+- Version update: PHP version 8.0.10 -> 8.0.16
+- Version update: Redis version 6.2.5 -> 6.2.6
+
 ## [1.5.0] - 2021-09-19
 ### Changed
 - Version update: Alpine version 3.13 -> 3.14
@@ -148,7 +158,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/mignz/DevA2/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/mignz/DevA2/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/mignz/DevA2/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/mignz/DevA2/compare/v1.4.0...v1.4.1
