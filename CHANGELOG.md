@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.5.3] - 2023-01-01
+### Changed
+- Version update: Alpine version 3.16 -> 3.17
+- Version update: Nginx version 1.22.0 -> 1.22.1
+- Version update: MariaDB version 10.6.9 -> 10.6.11
+- Version update: Phalcon version 5.0.0RC4 —> 5.1.3
+- Version update: PHP version 8.1.9 -> 8.1.13
+- Version update: Redis version 7.0.4 -> 7.0.7
+
 ## [1.5.2] - 2022-09-07
 ### Changed
 - Version update: Alpine version 3.15 -> 3.16
@@ -167,7 +176,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Improved readme
 
-[Unreleased]: https://github.com/mignz/DevA2/compare/v1.5.2...HEAD
+[Unreleased]: https://github.com/mignz/DevA2/compare/v1.5.3...HEAD
+[1.5.3]: https://github.com/mignz/DevA2/compare/v1.5.2...v1.5.3
 [1.5.2]: https://github.com/mignz/DevA2/compare/v1.5.1...v1.5.2
 [1.5.1]: https://github.com/mignz/DevA2/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/mignz/DevA2/compare/v1.4.2...v1.5.0

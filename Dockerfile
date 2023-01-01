@@ -1,13 +1,13 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 ENV \
-    NGINX_VERSION=1.22.0-r1 \
-    S6_VERSION=2.11.1.0-r0 \
-    PHP_VERSION=8.1.9-r0 \
-    PHALCON_VERSION=5.0.0RC4 \
-    MARIADB_VERSION=10.6.9-r0 \
-    REDIS_VERSION=7.0.4-r1 \
-    SSMTP_VERSION=2.64-r17
+    NGINX_VERSION=1.22.1-r0 \
+    S6_VERSION=2.11.1.2-r0 \
+    PHP_VERSION=8.1.13-r0 \
+    PHALCON_VERSION=5.1.3 \
+    MARIADB_VERSION=10.6.11-r0 \
+    REDIS_VERSION=7.0.7-r0 \
+    SSMTP_VERSION=2.64-r18
 
 RUN set -x \
     && apk add --update --no-cache curl \
@@ -109,7 +109,7 @@ RUN chmod +x /etc/s6/mysql/* \
     && SAN=DNS:localhost openssl req -newkey rsa:2048 -x509 -nodes -keyout /etc/nginx/deva/ssl/localhost.key -new -out /etc/nginx/deva/ssl/localhost.crt -subj /CN=localhost -extensions san_env -config /etc/nginx/deva/ssl/san.cnf -sha256 -days 3650 \
     && SAN=DNS:cp.test,DNS:localhost openssl req -newkey rsa:2048 -x509 -nodes -keyout /etc/nginx/deva/ssl/cp.test.key -new -out /etc/nginx/deva/ssl/cp.test.crt -subj /CN=cp.test -extensions san_env -config /etc/nginx/deva/ssl/san.cnf -sha256 -days 3650
 
-EXPOSE 80/tcp 443/tcp 3306/tcp
+EXPOSE 80/tcp 443/tcp 3306/tcp 6379/tcp
 
 VOLUME /var/www
 VOLUME /var/lib/mysql

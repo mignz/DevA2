@@ -397,7 +397,7 @@ $app->get(
         } catch (\Exception $e) {
             $stop = true;
             echo $app['view']->render('errors/woops', [
-                'error' => $e->getMessage
+                'error' => $e->getMessage()
             ]);
         }
         
