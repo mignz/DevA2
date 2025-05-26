@@ -1,13 +1,13 @@
-FROM alpine:3.17
+FROM alpine:3.21
 
 ENV \
-    NGINX_VERSION=1.22.1-r0 \
-    S6_VERSION=2.11.1.2-r0 \
-    PHP_VERSION=8.1.13-r0 \
-    PHALCON_VERSION=5.1.3 \
-    MARIADB_VERSION=10.6.11-r0 \
-    REDIS_VERSION=7.0.7-r0 \
-    SSMTP_VERSION=2.64-r18
+    NGINX_VERSION=1.26.3-r0 \
+    S6_VERSION=2.13.1.0-r0 \
+    PHP_VERSION=8.4.5-r0 \
+    PHALCON_VERSION=5.9.3 \
+    MARIADB_VERSION=11.4.5-r0 \
+    REDIS_VERSION=7.2.8-r0 \
+    SSMTP_VERSION=2.64-r22
 
 RUN set -x \
     && apk add --update --no-cache curl \
@@ -31,53 +31,53 @@ RUN set -x \
         pcre2-dev \
         file \
         re2c \
-    && apk add --update --no-cache php81=$PHP_VERSION \
-        php81-bcmath=$PHP_VERSION \
-        php81-bz2=$PHP_VERSION \
-        php81-calendar=$PHP_VERSION \
-        php81-ctype=$PHP_VERSION \
-        php81-curl=$PHP_VERSION \
-        php81-dba=$PHP_VERSION \
-        php81-dev=$PHP_VERSION \
-        php81-dom=$PHP_VERSION \
-        php81-enchant=$PHP_VERSION \
-        php81-exif=$PHP_VERSION \
-        php81-fpm=$PHP_VERSION \
-        php81-ftp=$PHP_VERSION \
-        php81-gd=$PHP_VERSION \
-        php81-gettext=$PHP_VERSION \
-        php81-gmp=$PHP_VERSION \
-        php81-iconv=$PHP_VERSION \
-        php81-imap=$PHP_VERSION \
-        php81-intl=$PHP_VERSION \
-        php81-ldap=$PHP_VERSION \
-        php81-mbstring=$PHP_VERSION \
-        php81-mysqli=$PHP_VERSION \
-        php81-mysqlnd=$PHP_VERSION \
-        php81-openssl=$PHP_VERSION \
-        php81-pdo=$PHP_VERSION \
-        php81-pdo_mysql=$PHP_VERSION \
-        php81-pdo_sqlite=$PHP_VERSION \
-        php81-pecl-imagick \
-        php81-pecl-psr \
-        php81-pecl-redis \
-        php81-pecl-xdebug \
-        php81-phar=$PHP_VERSION \
-        php81-posix=$PHP_VERSION \
-        php81-pspell=$PHP_VERSION \
-        php81-session=$PHP_VERSION \
-        php81-sodium=$PHP_VERSION \
-        php81-soap=$PHP_VERSION \
-        php81-sockets=$PHP_VERSION \
-        php81-sqlite3=$PHP_VERSION \
-        php81-sysvmsg=$PHP_VERSION \
-        php81-sysvsem=$PHP_VERSION \
-        php81-sysvshm=$PHP_VERSION \
-        php81-tidy=$PHP_VERSION \
-        php81-xml=$PHP_VERSION \
-        php81-xmlreader=$PHP_VERSION \
-        php81-xsl=$PHP_VERSION \
-        php81-zip=$PHP_VERSION \
+        php84=$PHP_VERSION \
+        php84-bcmath=$PHP_VERSION \
+        php84-bz2=$PHP_VERSION \
+        php84-calendar=$PHP_VERSION \
+        php84-ctype=$PHP_VERSION \
+        php84-curl=$PHP_VERSION \
+        php84-dba=$PHP_VERSION \
+        php84-dev=$PHP_VERSION \
+        php84-dom=$PHP_VERSION \
+        php84-enchant=$PHP_VERSION \
+        php84-exif=$PHP_VERSION \
+        php84-fpm=$PHP_VERSION \
+        php84-ftp=$PHP_VERSION \
+        php84-gd=$PHP_VERSION \
+        php84-gettext=$PHP_VERSION \
+        php84-gmp=$PHP_VERSION \
+        php84-iconv=$PHP_VERSION \
+        php84-intl=$PHP_VERSION \
+        php84-ldap=$PHP_VERSION \
+        php84-mbstring=$PHP_VERSION \
+        php84-mysqli=$PHP_VERSION \
+        php84-mysqlnd=$PHP_VERSION \
+        php84-openssl=$PHP_VERSION \
+        php84-pdo=$PHP_VERSION \
+        php84-pdo_mysql=$PHP_VERSION \
+        php84-pdo_sqlite=$PHP_VERSION \
+        php84-pear=$PHP_VERSION \
+        php84-pecl-imagick \
+        php84-pecl-imap \
+        php84-pecl-psr \
+        php84-pecl-redis \
+        php84-pecl-xdebug \
+        php84-phar=$PHP_VERSION \
+        php84-posix=$PHP_VERSION \
+        php84-session=$PHP_VERSION \
+        php84-sodium=$PHP_VERSION \
+        php84-soap=$PHP_VERSION \
+        php84-sockets=$PHP_VERSION \
+        php84-sqlite3=$PHP_VERSION \
+        php84-sysvmsg=$PHP_VERSION \
+        php84-sysvsem=$PHP_VERSION \
+        php84-sysvshm=$PHP_VERSION \
+        php84-tidy=$PHP_VERSION \
+        php84-xml=$PHP_VERSION \
+        php84-xmlreader=$PHP_VERSION \
+        php84-xsl=$PHP_VERSION \
+        php84-zip=$PHP_VERSION \
     && cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default \
     && rm -rf /var/www/localhost \
     && mysql_install_db --user=root --datadir='/var/lib/mysql' > /dev/null 2>&1 \
@@ -87,18 +87,19 @@ RUN set -x \
     && mkdir -p /run/mysqld /run/nginx \
     && /usr/bin/mysqld --user=root --datadir='/var/lib/mysql' --bootstrap --verbose=0 < /tmp/deva.sql \
     && rm -f /tmp/deva.sql \
-    && cp /etc/php81/php.ini /etc/php81/php.ini.default \
-    && cp /etc/php81/php-fpm.conf /etc/php81/php-fpm.conf.default \
-    && [ -f /usr/bin/php-config ] || ln -s /usr/bin/php-config81 /usr/bin/php-config \
-    && [ -f /usr/bin/php ] || ln -s /usr/bin/php81 /usr/bin/php \
-    && [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize81 /usr/bin/phpize \
-    && [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
+    && cp /etc/php84/php.ini /etc/php84/php.ini.default \
+    && cp /etc/php84/php-fpm.conf /etc/php84/php-fpm.conf.default \
+    && [ -f /usr/bin/php-config ] || ln -s /usr/bin/php-config84 /usr/bin/php-config \
+    && [ -f /usr/bin/php ] || ln -s /usr/bin/php84 /usr/bin/php \
+    && [ -f /usr/bin/phpize ] || ln -s /usr/bin/phpize84 /usr/bin/phpize \
+    && [ -f /usr/bin/php-fpm ] || ln -s /usr/sbin/php-fpm84 /usr/sbin/php-fpm \
     && adduser -D -g 'www' www \
     && rm -rf /var/cache/apk/* \
+    && export CFLAGS="$CFLAGS -DALPINE_LINUX=1 -fpermissive" \
     && git clone --depth=1 --branch v$PHALCON_VERSION "https://github.com/phalcon/cphalcon.git" /root/cphalcon \
     && cd /root/cphalcon/build \
     && ./install \
-    && echo "extension=phalcon.so" > /etc/php81/conf.d/phalcon.ini
+    && echo "extension=phalcon.so" > /etc/php84/conf.d/phalcon.ini
 
 ADD files /
 

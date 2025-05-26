@@ -102,7 +102,7 @@ class Shell
         \putenv('PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin');
         
         \passthru(
-            'cd /root && ' .
+            'export CFLAGS="$CFLAGS -DALPINE_LINUX=1 -fpermissive" && cd /root && ' .
             'curl -sLO https://github.com/phalcon/cphalcon/archive/' . trim($version) . '.tar.gz && ' .
             'tar xzf /root/' . trim($version) . '.tar.gz && ' .
             'cd /root/cphalcon-' . substr(trim($version), 1) . ' && ' .

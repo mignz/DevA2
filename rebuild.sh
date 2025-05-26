@@ -18,6 +18,6 @@ docker exec -it "$(docker ps -a -q --filter ancestor=deva2dev)" ash
 # PUSHING
 
 # docker buildx create --use
-# docker buildx build -t mnunes/deva2:latest -t mnunes/deva2:1.5.3 --platform linux/amd64,linux/arm64 --push .
+# docker buildx build -t mnunes/deva2:latest -t mnunes/deva2:1.6.0 --platform linux/amd64,linux/arm64 --push .
 # docker buildx build -t mnunes/deva2:amd64 --platform linux/amd64 --push .
 # docker buildx build -t mnunes/deva2:arm64 --platform linux/arm64 --push .
